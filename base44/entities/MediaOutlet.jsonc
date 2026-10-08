@@ -1,0 +1,61 @@
+{
+  "name": "MediaOutlet",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Outlet Name"
+    },
+    "url": {
+      "type": "string",
+      "title": "URL"
+    },
+    "outlet_type": {
+      "type": "string",
+      "enum": [
+        "directory",
+        "social_media",
+        "review_site",
+        "forum",
+        "news_site",
+        "classified",
+        "other"
+      ],
+      "default": "directory"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category"
+    },
+    "form_fields": {
+      "type": "string",
+      "title": "Form Fields (JSON schema)"
+    }
+  },
+  "required": [
+    "name",
+    "url"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "Agent",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Agent Name"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "agent_type": {
+      "type": "string",
+      "enum": [
+        "form_filler",
+        "poster",
+        "scraper",
+        "headless_browser"
+      ],
+      "default": "form_filler"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "running",
+        "paused",
+        "error"
+      ],
+      "default": "idle"
+    },
+    "config": {
+      "type": "string",
+      "title": "Config (JSON)"
+    },
+    "capabilities": {
+      "type": "string",
+      "title": "Capabilities (JSON)"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

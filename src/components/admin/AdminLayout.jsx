@@ -10,6 +10,7 @@ const NAV = [
   { to: "/admin/create", icon: Compass, label: "Creation Hub" },
   { to: "/admin/visual-editor", icon: Palette, label: "Visual Editor" },
   { to: "/admin/industry-library", icon: Library, label: "Industry Library" },
+  { to: "/admin/seo-command", icon: Rocket, label: "SEO Command" },
   { to: "/admin/apex", icon: ShieldCheck, label: "Apex Control" },
   { to: "/admin/sync", icon: Zap, label: "Sync Engine" },
   { to: "/admin/launched-sites", icon: Globe, label: "Launched Sites" },

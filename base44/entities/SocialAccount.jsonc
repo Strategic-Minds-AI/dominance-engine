@@ -1,0 +1,55 @@
+{
+  "name": "SocialAccount",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": [
+        "facebook",
+        "instagram",
+        "twitter",
+        "linkedin",
+        "tiktok",
+        "youtube"
+      ]
+    },
+    "account_name": {
+      "type": "string",
+      "title": "Account Name"
+    },
+    "handle": {
+      "type": "string",
+      "title": "Handle"
+    },
+    "connected": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "platform",
+    "account_name"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

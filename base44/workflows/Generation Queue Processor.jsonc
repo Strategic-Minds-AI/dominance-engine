@@ -1,0 +1,47 @@
+{
+  "description": "Drains the page generation queue every 5 minutes \u2014 expands campaigns and generates page content via the Vercel AI Gateway. Scales to millions of pages.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "*/5 * * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "name": "Generation Queue Processor",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "generation_queue_processor",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "process_queue": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "processGenerationQueue",
+            "args": {
+              "batch_size": 5
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Process generation queue",
+            "description": "Generate pages via AI Gateway"
+          }
+        }
+      }
+    ]
+  }
+}

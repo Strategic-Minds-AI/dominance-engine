@@ -1,0 +1,70 @@
+{
+  "name": "ProgrammaticRule",
+  "type": "object",
+  "properties": {
+    "rule_name": {
+      "type": "string",
+      "title": "Rule Name"
+    },
+    "rule_description": {
+      "type": "string",
+      "title": "Rule Description"
+    },
+    "google_guideline_ref": {
+      "type": "string",
+      "title": "Google Guideline Reference"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category",
+      "enum": [
+        "content",
+        "technical",
+        "structure",
+        "local",
+        "differentiation",
+        "metadata"
+      ],
+      "default": "content"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "high"
+    }
+  },
+  "required": [
+    "rule_name"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
