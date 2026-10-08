@@ -4,13 +4,26 @@
   "properties": {
     "website_id": {
       "type": "string",
-      "description": "Parent Website id"
+      "description": "Parent Website id (legacy factory)"
     },
     "website_name": {
       "type": "string"
     },
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite this page belongs to (programmatic launcher)"
+    },
     "slug": {
-      "type": "string"
+      "type": "string",
+      "description": "Unique URL slug"
+    },
+    "route_path": {
+      "type": "string",
+      "description": "Full path /slug"
+    },
+    "keyword": {
+      "type": "string",
+      "description": "Target search keyword"
     },
     "page_type": {
       "type": "string",
@@ -26,7 +39,8 @@
       "default": "service"
     },
     "title": {
-      "type": "string"
+      "type": "string",
+      "description": "SEO title tag"
     },
     "h1": {
       "type": "string"
@@ -37,25 +51,51 @@
     "intro": {
       "type": "string"
     },
+    "practice_area": {
+      "type": "string",
+      "description": "Service / practice area name"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "state_code": {
+      "type": "string"
+    },
+    "county": {
+      "type": "string"
+    },
     "sections": {
       "type": "array",
       "items": {
         "type": "object"
       }
     },
+    "content_markdown": {
+      "type": "string",
+      "format": "richtext",
+      "description": "Full page content (programmatic launcher)"
+    },
     "faq": {
       "type": "array",
       "items": {
         "type": "object"
-      }
+      },
+      "description": "Array of {q/question, a/answer} objects"
     },
     "schema_json": {
-      "type": "object"
+      "type": "object",
+      "description": "JSON-LD schema object (or { @graph: [...] })"
     },
     "intent": {
       "type": "string"
     },
     "canonical_url": {
+      "type": "string"
+    },
+    "canonical_path": {
       "type": "string"
     },
     "compliance_flags": {
@@ -83,7 +123,6 @@
     }
   },
   "required": [
-    "website_id",
     "slug",
     "title",
     "status"
@@ -91,6 +130,9 @@
   "rls": {
     "read": {
       "$or": [
+        {
+          "data.status": "published"
+        },
         {
           "created_by_id": "{{user.id}}"
         },
@@ -102,7 +144,16 @@
       ]
     },
     "create": {
-      "created_by_id": "{{user.id}}"
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
     },
     "update": {
       "$or": [
