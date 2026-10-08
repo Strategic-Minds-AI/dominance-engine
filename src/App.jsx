@@ -33,6 +33,7 @@ import Experiments from '@/pages/Experiments';
 import SocialMedia from '@/pages/admin/SocialMedia';
 import VisualEditor from '@/pages/VisualEditor';
 import CreationHub from '@/pages/CreationHub';
+import UniversalFactory from '@/pages/admin/UniversalFactory';
 import IndustryLibrary from '@/pages/admin/IndustryLibrary';
 import SeoCommand from '@/pages/admin/SeoCommand';
 import EdenAvatarStudio from '@/pages/EdenAvatarStudio';
@@ -95,6 +96,7 @@ const AuthenticatedApp = () => {
           <Route path="social-media" element={<SocialMedia />} />
           <Route path="visual-editor" element={<VisualEditor />} />
           <Route path="create" element={<CreationHub />} />
+          <Route path="universal-factory" element={<UniversalFactory />} />
           <Route path="industry-library" element={<IndustryLibrary />} />
           <Route path="seo-command" element={<SeoCommand />} />
           <Route path="eden-avatar" element={<EdenAvatarStudio />} />

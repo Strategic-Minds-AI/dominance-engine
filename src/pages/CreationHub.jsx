@@ -82,6 +82,7 @@ export default function CreationHub() {
         </h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
+            { to: "/admin/universal-factory", icon: Sparkles, label: "Universal Factory", desc: "Source catalogs & build briefs" },
             { to: "/admin/studio", icon: Palette, label: "Studio", desc: "Pack review & versions" },
             { to: "/admin/programmatic", icon: Rocket, label: "Programmatic", desc: "Launch sites at scale" },
             { to: "/admin/social-media", icon: Share2, label: "Social Media", desc: "30-day AI campaigns" },

@@ -1,0 +1,98 @@
+{
+  "name": "FactoryCatalogItem",
+  "type": "object",
+  "properties": {
+    "catalog_key": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "package_key": {
+      "type": "string",
+      "enum": [
+        "frontend",
+        "generator",
+        "master",
+        "operations",
+        "workbook",
+        "zero"
+      ]
+    },
+    "package_version": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "entry_key": {
+      "type": "string",
+      "maxLength": 250
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 300
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "source_path": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "source_sha256": {
+      "type": "string"
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "content_text": {
+      "type": "string",
+      "maxLength": 15000
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "reference_only"
+      ],
+      "default": "reference_only"
+    },
+    "risk_class": {
+      "type": "string",
+      "maxLength": 120
+    }
+  },
+  "required": [
+    "catalog_key",
+    "package_key",
+    "category",
+    "entry_key",
+    "name",
+    "source_path",
+    "source_sha256",
+    "availability"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

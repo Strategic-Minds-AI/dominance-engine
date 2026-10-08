@@ -8,6 +8,7 @@ import {
 const NAV = [
   { to: "/admin", end: true, icon: LayoutDashboard, label: "Command Center" },
   { to: "/admin/create", icon: Compass, label: "Creation Hub" },
+  { to: "/admin/universal-factory", icon: Factory, label: "Universal Factory" },
   { to: "/admin/visual-editor", icon: Palette, label: "Visual Editor" },
   { to: "/admin/industry-library", icon: Library, label: "Industry Library" },
   { to: "/admin/seo-command", icon: Rocket, label: "SEO Command" },

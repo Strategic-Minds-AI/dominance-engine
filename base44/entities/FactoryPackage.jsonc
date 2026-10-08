@@ -1,0 +1,98 @@
+{
+  "name": "FactoryPackage",
+  "type": "object",
+  "properties": {
+    "package_key": {
+      "type": "string",
+      "enum": [
+        "frontend",
+        "generator",
+        "master",
+        "operations",
+        "workbook",
+        "zero"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 160
+    },
+    "version": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "source_url": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "archive_sha256": {
+      "type": "string"
+    },
+    "source_file_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "catalog_status": {
+      "type": "string",
+      "enum": [
+        "registered",
+        "importing",
+        "import_failed"
+      ],
+      "default": "importing"
+    },
+    "runtime_status": {
+      "type": "string",
+      "enum": [
+        "not_activated",
+        "external_bridge_required",
+        "reference_only"
+      ],
+      "default": "not_activated"
+    },
+    "next_step": {
+      "type": "string",
+      "maxLength": 1200
+    },
+    "imported_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "boundary": {
+      "type": "string",
+      "maxLength": 1500
+    }
+  },
+  "required": [
+    "package_key",
+    "name",
+    "version",
+    "source_url",
+    "archive_sha256"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import { Send, Loader2, Monitor, Tablet, Smartphone, Code, Eye, Save, Sparkles, ArrowLeft } from "lucide-react";
+import FactoryEditorContext from "@/components/factory/FactoryEditorContext";
 
 const INITIAL_HTML = `<!DOCTYPE html>
 <html>
@@ -38,6 +39,24 @@ export default function VisualEditor() {
   const [device, setDevice] = useState("desktop");
   const [view, setView] = useState("visual");
   const scrollRef = useRef(null);
+  const factoryId = new URLSearchParams(window.location.search).get("factory");
+  const [factoryDefinition, setFactoryDefinition] = useState(null);
+  const [factoryLoading, setFactoryLoading] = useState(Boolean(factoryId));
+  const [factoryError, setFactoryError] = useState("");
+
+  useEffect(() => {
+    if (!factoryId) return;
+    let active = true;
+    setFactoryLoading(true);
+    base44.entities.GeneratorDefinition.get(factoryId).then((definition) => {
+      if (definition?.definition?.factory_origin !== "universal_factory") throw new Error("This is not a Universal Factory draft.");
+      if (!active) return;
+      setFactoryDefinition(definition);
+      setInput("Create a responsive design preview from the linked factory blueprint.");
+      setMessages([{ role: "assistant", content: `Factory draft loaded: ${definition.name}. Send the prepared request to generate a preview; no external services or public release will be activated.` }]);
+    }).catch((error) => { if (active) setFactoryError(error.message); }).finally(() => { if (active) setFactoryLoading(false); });
+    return () => { active = false; };
+  }, [factoryId]);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -49,11 +68,13 @@ export default function VisualEditor() {
     setLoading(true);
     setInput("");
     try {
-      const res = await base44.functions.invoke("chatEdit", {
+      const response = await base44.functions.invoke("chatEdit", {
         message: text,
         current_html: html,
         history: messages,
+        ...(factoryDefinition ? { factory_definition_id: factoryDefinition.id } : {}),
       });
+      const res = response.data;
       if (res.error) throw new Error(res.error);
       if (res.action === "edit" && res.html) {
         setHtml(res.html);
@@ -64,7 +85,7 @@ export default function VisualEditor() {
     } finally {
       setLoading(false);
     }
-  }, [messages, html]);
+  }, [messages, html, factoryDefinition]);
 
   const handleSave = async () => {
     const name = window.prompt("Name this design:", "Untitled Design");
@@ -77,6 +98,7 @@ export default function VisualEditor() {
         preview_html: html,
         status: "pending_review",
         source: "manual",
+        ...(factoryDefinition ? { manifest: JSON.stringify({ factory_definition_id: factoryDefinition.id, build_spec_hash: factoryDefinition.definition.build_spec_hash, scope: "design_preview", validation: "NOT_TESTED" }) } : {}),
       });
       setMessages((m) => [...m, { role: "assistant", content: `Saved "${name}" to Studio for review.` }]);
     } catch (e) {
@@ -88,7 +110,7 @@ export default function VisualEditor() {
 
   const handleSubmit = (e) => {
     e?.preventDefault();
-    if (!input.trim() || loading) return;
+    if (!input.trim() || loading || factoryLoading || (factoryId && !factoryDefinition)) return;
     handleSend(input.trim());
   };
 
@@ -105,6 +127,7 @@ export default function VisualEditor() {
             <ArrowLeft className="h-3 w-3" /> Back
           </Link>
         </div>
+        {factoryId && <FactoryEditorContext generator={factoryDefinition} error={factoryError} loading={factoryLoading} />}
         <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -130,9 +153,9 @@ export default function VisualEditor() {
               placeholder="Describe a change or ask to build something..."
               rows={2}
               className="flex-1 resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-[#00f2ff]/50 placeholder:text-white/30"
-              disabled={loading}
+              disabled={loading || factoryLoading || (Boolean(factoryId) && !factoryDefinition)}
             />
-            <button type="submit" disabled={loading || !input.trim()} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#00f2ff] text-black disabled:opacity-40">
+            <button type="submit" disabled={loading || !input.trim() || factoryLoading || (Boolean(factoryId) && !factoryDefinition)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#00f2ff] text-black disabled:opacity-40">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </button>
           </div>
