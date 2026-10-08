@@ -22,30 +22,26 @@ export default function Home() {
         Call Now
       </a>
 
-      {/* Shrunk, contained hero */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10 sm:px-8">
-        <div className="relative w-full max-w-2xl">
-          <div className="overflow-hidden rounded-2xl ring-1 ring-[#00D4FF]/30 shadow-[0_0_60px_rgba(0,212,255,0.25)]">
-            <img
-              src={HERO_URL}
-              alt="Strategic Minds AI — Intelligence In Motion"
-              className="block w-full h-auto"
-            />
-          </div>
+      {/* Full-bleed responsive hero — fills desktop + mobile */}
+      <img
+        src={HERO_URL}
+        alt="Strategic Minds AI — Intelligence In Motion"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      {/* Bottom gradient for CTA legibility on any viewport */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/2 bg-gradient-to-t from-[#00050A] via-[#00050A]/60 to-transparent" />
 
-          {/* Clickable CTA overlaid on the image's button area */}
-          <div className="absolute inset-x-0 bottom-[5%] flex justify-center px-4">
-            <Link
-              to="/admin"
-              className="group inline-flex items-center gap-2.5 rounded-full border-2 border-[#00D4FF] bg-[#00D4FF]/5 px-5 py-2.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.25em] text-white shadow-[0_0_30px_rgba(0,212,255,0.45)] transition hover:bg-[#00D4FF]/15 hover:shadow-[0_0_55px_rgba(0,212,255,0.7)] sm:px-7 sm:py-3"
-            >
-              Build Smarter. <span className="text-[#00D4FF]">Grow Faster.</span>
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00D4FF] text-black transition group-hover:translate-x-1">
-                <ArrowRight className="h-3.5 w-3.5" />
-              </span>
-            </Link>
-          </div>
-        </div>
+      {/* CTA — bottom center, responsive padding */}
+      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-8 sm:pb-12">
+        <Link
+          to="/admin"
+          className="group inline-flex items-center gap-2.5 rounded-full border-2 border-[#00D4FF] bg-[#00D4FF]/10 px-6 py-3 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm shadow-[0_0_30px_rgba(0,212,255,0.45)] transition hover:bg-[#00D4FF]/20 hover:shadow-[0_0_55px_rgba(0,212,255,0.7)] sm:px-8 sm:py-3.5 sm:text-sm"
+        >
+          Build Smarter. <span className="text-[#00D4FF]">Grow Faster.</span>
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00D4FF] text-black transition group-hover:translate-x-1">
+            <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        </Link>
       </div>
     </div>
   );
