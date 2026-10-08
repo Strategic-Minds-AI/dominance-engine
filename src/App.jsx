@@ -30,6 +30,7 @@ import Programmatic from '@/pages/Programmatic';
 import Studio from '@/pages/Studio';
 import Dominance from '@/pages/Dominance';
 import Experiments from '@/pages/Experiments';
+import SocialMedia from '@/pages/admin/SocialMedia';
 import EdenAvatarStudio from '@/pages/EdenAvatarStudio';
 import SiteVersionView from '@/pages/SiteVersionView';
 import ClientPortal from '@/pages/ClientPortal';
@@ -87,6 +88,7 @@ const AuthenticatedApp = () => {
           <Route path="studio" element={<Studio />} />
           <Route path="dominance" element={<Dominance />} />
           <Route path="experiments" element={<Experiments />} />
+          <Route path="social-media" element={<SocialMedia />} />
           <Route path="eden-avatar" element={<EdenAvatarStudio />} />
         </Route>
       </Route>

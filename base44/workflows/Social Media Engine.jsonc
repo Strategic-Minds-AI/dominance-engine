@@ -1,0 +1,59 @@
+{
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "social_media_engine",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "generate_campaigns": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "generateSocialCampaign",
+            "args": {}
+          },
+          "then": "post_due",
+          "x-base44": {
+            "title": "Generate 30-day campaigns",
+            "description": "Create AI content for sites needing campaigns"
+          }
+        }
+      },
+      {
+        "post_due": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "postSocialContent",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Publish due posts",
+            "description": "Mark scheduled posts as published"
+          }
+        }
+      }
+    ]
+  },
+  "description": "Daily automated social media engine: generates 30-day AI content campaigns (text + images) for sites that need them and publishes scheduled posts that are due. Runs on Vercel AI Gateway.",
+  "name": "Social Media Engine",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 8 * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  }
+}

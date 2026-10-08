@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Factory, Eye, Server, RefreshCw, Package, Rocket, Bot,
-  Sparkles, Menu, X, ArrowLeft, ShieldCheck, Zap, Globe, Layers, FileCode, Activity, FlaskConical, Bot as BotIcon
+  Sparkles, Menu, X, ArrowLeft, ShieldCheck, Zap, Globe, Layers, FileCode, Activity, FlaskConical, Bot as BotIcon, Share2
 } from "lucide-react";
 
 const NAV = [
@@ -15,6 +15,7 @@ const NAV = [
   { to: "/admin/dominance", icon: FileCode, label: "Dominance" },
   { to: "/admin/experiments", icon: Activity, label: "Experiments" },
   { to: "/admin/eden-avatar", icon: BotIcon, label: "Eden Avatar" },
+  { to: "/admin/social-media", icon: Share2, label: "Social Media" },
   { to: "/admin/opportunities", icon: Radar, label: "Opportunity Radar" },
   { to: "/admin/website-factory", icon: Factory, label: "Website Factory" },
   { to: "/admin/preview", icon: Eye, label: "Preview" },
