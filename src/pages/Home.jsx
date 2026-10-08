@@ -53,7 +53,7 @@ export default function Home() {
       {/* Call Now — top right */}
       <a
         href="tel:+15555550100"
-        className="absolute right-4 top-4 z-30 inline-flex items-center gap-2 rounded-full border-2 border-[#00D4FF] bg-[#00D4FF]/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-[0_0_30px_rgba(0,212,255,0.45)] transition hover:bg-[#00D4FF]/20 hover:shadow-[0_0_50px_rgba(0,212,255,0.7)] sm:px-5 sm:py-2.5 sm:text-sm"
+        className="absolute right-4 top-[calc(1rem+env(safe-area-inset-top))] z-30 inline-flex items-center gap-2 rounded-full border-2 border-[#00D4FF] bg-[#00D4FF]/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white shadow-[0_0_30px_rgba(0,212,255,0.45)] transition hover:bg-[#00D4FF]/20 hover:shadow-[0_0_50px_rgba(0,212,255,0.7)] sm:px-5 sm:py-2.5 sm:text-sm"
       >
         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00D4FF] text-black">
           <Phone className="h-3.5 w-3.5" />
@@ -65,7 +65,7 @@ export default function Home() {
       <img
         src={heroUrl || FALLBACK_URL}
         alt="Strategic Minds AI — Intelligence In Motion"
-        className="absolute inset-0 h-full w-full object-contain"
+        className="absolute inset-0 h-full w-full object-cover dd-kenburns"
       />
 
       {/* Loading overlay while generating */}
@@ -84,7 +84,7 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/2 bg-gradient-to-t from-[#00050A] via-[#00050A]/60 to-transparent" />
 
       {/* CTA — bottom center, responsive padding */}
-      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-8 sm:pb-12">
+      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:pb-[calc(3rem+env(safe-area-inset-bottom))]">
         <Link
           to="/admin"
           className="group inline-flex items-center gap-2.5 rounded-full border-2 border-[#00D4FF] bg-[#00D4FF]/10 px-6 py-3 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm shadow-[0_0_30px_rgba(0,212,255,0.45)] transition hover:bg-[#00D4FF]/20 hover:shadow-[0_0_55px_rgba(0,212,255,0.7)] sm:px-8 sm:py-3.5 sm:text-sm"
