@@ -75,7 +75,14 @@ Use sources by authority and freshness. Benchmark CPC/CPL is a willingness-to-pa
 - Google Ads Keyword Ideas — keyword ideas + historical metrics — https://developers.google.com/google-ads/api/docs/keyword-planning/generate-keyword-ideas
 - Google Trends API — trend velocity — https://developers.google.com/search/blog/2025/07/trends-api
 - Google Business Profile — local entity accuracy — https://business.google.com/
-- OpenAI Agents API — durable managed agent sessions — https://developers.openai.com/api/docs/guides/agents-api/overview`;
+- OpenAI Agents API — durable managed agent sessions — https://developers.openai.com/api/docs/guides/agents-api/overview
+
+# PROGRAMMATIC PIPELINE LIBRARY (sync target)
+- Pipeline stages: Library Sync -> Create & Install -> Strategic Mutation -> Google Search Console Sync -> Scale to Hundreds of Locations -> Citation Distribution -> Monitor & Multiply Winners
+- Mutation matrix: every cloned page changes canonical URL, title, H1, meta, intro, sections, FAQ and schema per metro (no token-swap-only pages)
+- Sitemap: per-site sitemap.xml at /sitemap.xml, submitted to Google Search Console for crawl + index
+- Citations: NAP submitted to Google Business Profile, Bing Places, Apple Maps, Yelp, Facebook, Foursquare, YP, BBB, MapQuest, Superpages, Local.com, Manta, Hotfrog, Citysearch, Four11, Trustpilot
+- Scale gate: unique value per location; no doorway fleets, no scaled thin content (workbook Sheet 09 + Sheet 26)`;
 
 export const CONNECTOR_BINDINGS = [
   { capability: "Repo / CI", tool: "GitHub", available: true },

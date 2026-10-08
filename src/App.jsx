@@ -21,6 +21,7 @@ import Preview from '@/pages/admin/Preview';
 import Provisioning from '@/pages/admin/Provisioning';
 import GptSync from '@/pages/admin/GptSync';
 import Packs from '@/pages/admin/Packs';
+import Pipeline from '@/pages/admin/Pipeline';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -62,6 +63,7 @@ const AuthenticatedApp = () => {
           <Route path="provisioning" element={<Provisioning />} />
           <Route path="gpt-sync" element={<GptSync />} />
           <Route path="packs" element={<Packs />} />
+          <Route path="pipeline" element={<Pipeline />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

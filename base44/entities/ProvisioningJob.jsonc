@@ -16,13 +16,15 @@
         "railway",
         "godaddy",
         "google_drive",
+        "google_search_console",
+        "citations",
         "full_stack"
       ],
       "default": "full_stack"
     },
     "action": {
       "type": "string",
-      "description": "provision / deploy / purchase_domain / sync_drive / migrate"
+      "description": "provision / deploy / purchase_domain / sync_drive / submit_sitemap / submit_nap / migrate"
     },
     "status": {
       "type": "string",
