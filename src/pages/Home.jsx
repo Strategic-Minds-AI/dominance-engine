@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Phone, Loader2 } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 
-const HERO_URL =
+const FALLBACK_URL =
   "https://media.base44.com/images/public/6ac7bc6cf0b681d8bc7f7aeb/cf93062aa_FACEBOOKIMAGE2.png";
+const CACHE_KEY = "dd_hero_image_v1";
 
 export default function Home() {
+  const [heroUrl, setHeroUrl] = useState(() => {
+    try {
+      return localStorage.getItem(CACHE_KEY) || null;
+    } catch {
+      return null;
+    }
+  });
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    if (heroUrl) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await base44.functions.invoke("generateHeroImage", {});
+        const url = res?.data?.url;
+        if (url && !cancelled) {
+          setHeroUrl(url);
+          try {
+            localStorage.setItem(CACHE_KEY, url);
+          } catch {
+            /* quota — keep in memory only */
+          }
+        } else if (!cancelled) {
+          setFailed(true);
+        }
+      } catch {
+        if (!cancelled) setFailed(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [heroUrl]);
+
+  const loading = !heroUrl && !failed;
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#00050A] text-white">
       {/* Ambient glow */}
@@ -22,12 +61,25 @@ export default function Home() {
         Call Now
       </a>
 
-      {/* Full-bleed responsive hero — fills desktop + mobile */}
+      {/* Hero image — generated via Vercel AI Gateway, cached locally */}
       <img
-        src={HERO_URL}
+        src={heroUrl || FALLBACK_URL}
         alt="Strategic Minds AI — Intelligence In Motion"
         className="absolute inset-0 h-full w-full object-contain"
       />
+
+      {/* Loading overlay while generating */}
+      {loading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3 text-white/60">
+            <Loader2 className="h-8 w-8 animate-spin text-[#00D4FF]" />
+            <span className="text-xs uppercase tracking-widest">
+              Generating hero…
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Bottom gradient for CTA legibility on any viewport */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/2 bg-gradient-to-t from-[#00050A] via-[#00050A]/60 to-transparent" />
 
