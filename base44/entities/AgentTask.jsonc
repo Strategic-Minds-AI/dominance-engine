@@ -4,11 +4,15 @@
   "properties": {
     "agent_name": {
       "type": "string",
-      "description": "Owning agent: orchestrator, swarm, growth_operator, code_architect, brand_guardian, social_strategist, sales_engine, replicator"
+      "description": "Owning agent: orchestrator, swarm, growth_operator, code_architect, brand_guardian, social_strategist, sales_engine, replicator, guardian"
+    },
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite this task belongs to"
     },
     "task_type": {
       "type": "string",
-      "description": "e.g. verify_ownership, submit_sitemap, configure_ga4, build_system, content_optimize, social_connect, google_connect, outreach, audit"
+      "description": "e.g. verify_ownership, submit_sitemap, configure_ga4, build_system, content_optimize, social_connect, google_connect, outreach, audit, connect_gsc, connect_analytics, build_spec"
     },
     "title": {
       "type": "string"
@@ -31,15 +35,17 @@
       "enum": [
         "pending",
         "running",
+        "in_progress",
+        "needs_approval",
         "completed",
-        "failed",
-        "needs_approval"
+        "failed"
       ],
       "default": "pending"
     },
     "autonomous": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Can execute without approval"
     },
     "target_id": {
       "type": "string",
@@ -50,7 +56,8 @@
       "description": "Website | Opportunity | Pack | ProvisioningJob"
     },
     "result": {
-      "type": "string"
+      "type": "string",
+      "description": "Result / receipt from execution"
     },
     "notes": {
       "type": "string"
@@ -58,7 +65,6 @@
   },
   "required": [
     "agent_name",
-    "task_type",
     "title",
     "status"
   ],
@@ -76,7 +82,16 @@
       ]
     },
     "create": {
-      "created_by_id": "{{user.id}}"
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
     },
     "update": {
       "$or": [
