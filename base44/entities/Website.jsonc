@@ -1,0 +1,173 @@
+{
+  "name": "Website",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Website / brand name"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-safe slug"
+    },
+    "service": {
+      "type": "string",
+      "description": "Core service (e.g. Plumber)"
+    },
+    "service_slug": {
+      "type": "string"
+    },
+    "vertical": {
+      "type": "string",
+      "description": "Industry vertical (e.g. home_repair)"
+    },
+    "metro": {
+      "type": "string",
+      "description": "Launch metro"
+    },
+    "intent": {
+      "type": "string",
+      "description": "Search intent (transactional/emergency/comparison/cost)"
+    },
+    "pattern": {
+      "type": "string",
+      "enum": [
+        "near_me",
+        "near_you",
+        "branded_hub"
+      ],
+      "default": "near_me"
+    },
+    "domain_candidate": {
+      "type": "string"
+    },
+    "domain_status": {
+      "type": "string",
+      "enum": [
+        "not_checked",
+        "available",
+        "configured",
+        "purchased",
+        "failed"
+      ],
+      "default": "not_checked"
+    },
+    "company_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "primary_city": {
+      "type": "string"
+    },
+    "primary_state": {
+      "type": "string"
+    },
+    "service_area": {
+      "type": "string"
+    },
+    "accent_color": {
+      "type": "string",
+      "default": "#00f2ff"
+    },
+    "page_count": {
+      "type": "number",
+      "default": 0
+    },
+    "google_compliance_score": {
+      "type": "number",
+      "description": "0-100 gate score"
+    },
+    "differentiation_score": {
+      "type": "number",
+      "description": "0-100 unique-value score"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "generating",
+        "preview_ready",
+        "queued",
+        "publishing",
+        "published",
+        "failed"
+      ],
+      "default": "draft"
+    },
+    "preview_data": {
+      "type": "object",
+      "description": "Full generated site structure JSON"
+    },
+    "provision_state": {
+      "type": "object",
+      "description": "supabase/vercel/railway/godaddy state"
+    },
+    "deploy_url": {
+      "type": "string"
+    },
+    "launch_mode": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "automated",
+        "autonomous"
+      ],
+      "default": "manual"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "slug",
+    "service",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

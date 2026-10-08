@@ -1,0 +1,132 @@
+{
+  "name": "GeneratedPage",
+  "type": "object",
+  "properties": {
+    "website_id": {
+      "type": "string",
+      "description": "Parent Website id"
+    },
+    "website_name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "page_type": {
+      "type": "string",
+      "enum": [
+        "home",
+        "service",
+        "location",
+        "guide",
+        "faq",
+        "contact",
+        "about"
+      ],
+      "default": "service"
+    },
+    "title": {
+      "type": "string"
+    },
+    "h1": {
+      "type": "string"
+    },
+    "meta_description": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "string"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "faq": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "schema_json": {
+      "type": "object"
+    },
+    "intent": {
+      "type": "string"
+    },
+    "canonical_url": {
+      "type": "string"
+    },
+    "compliance_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "differentiation_layers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "generated",
+        "validated",
+        "published",
+        "excluded"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "website_id",
+    "slug",
+    "title",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

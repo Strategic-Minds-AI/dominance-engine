@@ -1,0 +1,75 @@
+{
+  "name": "GptSyncConfig",
+  "type": "object",
+  "properties": {
+    "project_name": {
+      "type": "string",
+      "default": "DIGITAL DOMINANCE"
+    },
+    "system_instructions": {
+      "type": "string",
+      "description": "Pasted into the ChatGPT Project instructions"
+    },
+    "master_invocation_prompt": {
+      "type": "string"
+    },
+    "source_registry": {
+      "type": "string"
+    },
+    "connector_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "approval_matrix": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "last_sync_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sync_state": {
+      "type": "string",
+      "enum": [
+        "not_synced",
+        "synced",
+        "stale",
+        "failed"
+      ],
+      "default": "not_synced"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_name",
+    "sync_state"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

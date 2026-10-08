@@ -1,12 +1,26 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from '@/components/ProtectedRoute';
 // Add page imports here
+import Home from '@/pages/Home';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
+import AdminLayout from '@/components/admin/AdminLayout';
+import Dashboard from '@/pages/admin/Dashboard';
+import OpportunityRadar from '@/pages/admin/OpportunityRadar';
+import WebsiteFactory from '@/pages/admin/WebsiteFactory';
+import Preview from '@/pages/admin/Preview';
+import Provisioning from '@/pages/admin/Provisioning';
+import GptSync from '@/pages/admin/GptSync';
+import Packs from '@/pages/admin/Packs';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -34,7 +48,22 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      {/* Add your page Route elements here */}
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="opportunities" element={<OpportunityRadar />} />
+          <Route path="website-factory" element={<WebsiteFactory />} />
+          <Route path="preview" element={<Preview />} />
+          <Route path="provisioning" element={<Provisioning />} />
+          <Route path="gpt-sync" element={<GptSync />} />
+          <Route path="packs" element={<Packs />} />
+        </Route>
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

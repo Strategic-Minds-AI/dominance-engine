@@ -1,0 +1,98 @@
+{
+  "name": "Pack",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "app_pack",
+        "web_pack",
+        "logo_pack",
+        "website",
+        "system"
+      ],
+      "default": "web_pack"
+    },
+    "description": {
+      "type": "string"
+    },
+    "contents": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Pack asset manifest"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready",
+        "published",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "preview_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

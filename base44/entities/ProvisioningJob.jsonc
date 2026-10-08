@@ -1,0 +1,83 @@
+{
+  "name": "ProvisioningJob",
+  "type": "object",
+  "properties": {
+    "website_id": {
+      "type": "string"
+    },
+    "website_name": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string",
+      "enum": [
+        "supabase",
+        "vercel",
+        "railway",
+        "godaddy",
+        "google_drive",
+        "full_stack"
+      ],
+      "default": "full_stack"
+    },
+    "action": {
+      "type": "string",
+      "description": "provision / deploy / purchase_domain / sync_drive / migrate"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "success",
+        "failed",
+        "approval_required"
+      ],
+      "default": "pending"
+    },
+    "external_ref": {
+      "type": "string",
+      "description": "External resource id/url returned by provider"
+    },
+    "external_url": {
+      "type": "string"
+    },
+    "log": {
+      "type": "string"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "receipt": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "website_id",
+    "target",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
