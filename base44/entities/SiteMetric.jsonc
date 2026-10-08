@@ -1,0 +1,94 @@
+{
+  "name": "SiteMetric",
+  "type": "object",
+  "properties": {
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite this metric snapshot belongs to"
+    },
+    "site_name": {
+      "type": "string",
+      "description": "Denormalized site name for quick display"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The calendar date this snapshot covers (YYYY-MM-DD)"
+    },
+    "clicks": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Search Console clicks"
+    },
+    "impressions": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Search Console impressions"
+    },
+    "ctr": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Search Console click-through rate (0-1)"
+    },
+    "avg_position": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Search Console average position"
+    },
+    "sessions": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Analytics sessions"
+    },
+    "users": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Analytics total users"
+    },
+    "pageviews": {
+      "type": "number",
+      "default": 0,
+      "description": "Google Analytics pageviews"
+    },
+    "gsc_synced": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether GSC data was successfully pulled"
+    },
+    "analytics_synced": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether GA data was successfully pulled"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message if sync failed for this site"
+    }
+  },
+  "required": [
+    "launched_site_id",
+    "date"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

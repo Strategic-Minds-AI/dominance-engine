@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Radar, Factory, Eye, Server, RefreshCw, Package, Activity, Layers, TrendingUp, ShieldCheck, ArrowRight } from "lucide-react";
 import { SWARM_AGENTS, SCALE_STAGES } from "@/data/dominanceRegistry";
+import PerformancePanel from "@/components/admin/PerformancePanel";
 
 function StatCard({ icon: Icon, label, value, to, accent }) {
   return (
@@ -80,6 +81,9 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
+
+      {/* Performance Sync */}
+      <PerformancePanel />
 
       {/* Swarm + Scale */}
       <div className="grid gap-4 lg:grid-cols-2">
