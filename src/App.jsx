@@ -33,6 +33,12 @@ import Experiments from '@/pages/Experiments';
 import SocialMedia from '@/pages/admin/SocialMedia';
 import VisualEditor from '@/pages/VisualEditor';
 import CreationHub from '@/pages/CreationHub';
+import PortalLayout from '@/components/fl/PortalLayout';
+import XtremeOS from '@/pages/XtremeOS';
+import CommandCenter from '@/pages/CommandCenter';
+import Chat from '@/pages/Chat';
+import BusinessHub from '@/pages/business/BusinessHub';
+import Settings from '@/pages/Settings';
 import EdenAvatarStudio from '@/pages/EdenAvatarStudio';
 import SiteVersionView from '@/pages/SiteVersionView';
 import ClientPortal from '@/pages/ClientPortal';
@@ -73,6 +79,13 @@ const AuthenticatedApp = () => {
       <Route path="/portal/:slug" element={<ClientPortal />} />
       <Route path="/legal/:slug" element={<LegalPageView />} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+        <Route element={<PortalLayout />}>
+          <Route path="/app" element={<XtremeOS />} />
+          <Route path="/app/command-center" element={<CommandCenter />} />
+          <Route path="/app/chat" element={<Chat />} />
+          <Route path="/app/business" element={<BusinessHub />} />
+          <Route path="/app/settings" element={<Settings />} />
+        </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="opportunities" element={<OpportunityRadar />} />
