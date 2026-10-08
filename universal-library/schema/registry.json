@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "status": "proposed",
+  "canonical_backend": "supabase",
+  "model_gateway": "vercel-ai-gateway",
+  "contract": {
+    "id": "uuid",
+    "tenant_id": "uuid",
+    "created_at": "timestamp",
+    "updated_at": "timestamp",
+    "source_system": "string",
+    "source_ref": "string",
+    "idempotency_key": "string",
+    "revision": "integer",
+    "evidence_refs": "string[]"
+  },
+  "entities": [
+    "client",
+    "business_profile",
+    "service_catalog",
+    "location",
+    "brand_kit",
+    "industry_pack",
+    "onboarding_session",
+    "integration_connection",
+    "page_template",
+    "content_brief",
+    "content_asset",
+    "site",
+    "page",
+    "seo_audit",
+    "prospect",
+    "faultline_finding",
+    "social_account",
+    "social_post",
+    "campaign",
+    "contact",
+    "channel_consent",
+    "agent_mission",
+    "work_item",
+    "approval",
+    "validation_receipt",
+    "provider_event",
+    "performance_snapshot"
+  ],
+  "industry_packs": [
+    {
+      "key": "legal-personal-injury",
+      "regulated": true,
+      "review": "licensed-attorney-content-review"
+    },
+    {
+      "key": "home-services",
+      "regulated": false,
+      "review": "licensed-claims-and-local-eligibility"
+    },
+    {
+      "key": "healthcare",
+      "regulated": true,
+      "review": "qualified-medical-review-and-privacy"
+    },
+    {
+      "key": "real-estate",
+      "regulated": true,
+      "review": "broker-licensing-and-housing-compliance"
+    },
+    {
+      "key": "professional-services",
+      "regulated": false,
+      "review": "claims-and-credential-verification"
+    },
+    {
+      "key": "retail-ecommerce",
+      "regulated": false,
+      "review": "inventory-pricing-and-returns"
+    }
+  ],
+  "onboarding_steps": [
+    "business-identity",
+    "services-and-geography",
+    "credentials-and-proof",
+    "goals-and-sales-process",
+    "brand-and-assets",
+    "domain-and-integrations",
+    "contact-permissions",
+    "approval-and-signature"
+  ],
+  "workflow": {
+    "states": [
+      "DISCOVERED",
+      "QUALIFIED",
+      "ONBOARDING",
+      "BRIEF_READY",
+      "DRAFTING",
+      "QA_PENDING",
+      "PREVIEW_READY",
+      "CLIENT_REVIEW",
+      "APPROVED",
+      "PUBLISH_QUEUED",
+      "PUBLISHED",
+      "MONITORING",
+      "PAUSED",
+      "FAILED",
+      "CANCELLED"
+    ],
+    "protected_actions": [
+      "production_deploy",
+      "domain_update",
+      "paid_provisioning",
+      "live_social_publish",
+      "social_comment_reply",
+      "customer_email_sms_voice",
+      "production_db_migration",
+      "secret_change",
+      "irreversible_delete"
+    ]
+  },
+  "library_modules": [
+    "discovery",
+    "onboarding",
+    "brand",
+    "templates",
+    "generation",
+    "seo",
+    "aeo",
+    "geo",
+    "quality",
+    "deploy",
+    "analytics",
+    "social",
+    "communications",
+    "crm",
+    "digital_cards",
+    "booking",
+    "reviews",
+    "billing",
+    "client_portal",
+    "agent_ops"
+  ],
+  "sync": {
+    "event_envelope": [
+      "event_id",
+      "tenant_id",
+      "entity_type",
+      "entity_id",
+      "event_type",
+      "version",
+      "occurred_at",
+      "source",
+      "idempotency_key",
+      "payload_hash"
+    ],
+    "reconciliation": "event-log-plus-periodic-read-only-audit",
+    "write_rule": "one-writer-per-entity"
+  }
+}
