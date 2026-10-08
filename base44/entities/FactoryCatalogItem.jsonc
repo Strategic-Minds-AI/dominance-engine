@@ -14,7 +14,15 @@
         "master",
         "operations",
         "workbook",
-        "zero"
+        "zero",
+        "ai_hub_master",
+        "ai_hub_handoff",
+        "hv_categories",
+        "intel_core",
+        "intel_generators",
+        "market_intel",
+        "opportunity_machine",
+        "google_ecosystem"
       ]
     },
     "package_version": {
