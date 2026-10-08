@@ -127,7 +127,7 @@ export function buildPage(keyword, loc, matrix, opts = {}) {
   return {
     slug, route_path: routePath, keyword: keyword + " " + city, title, meta_description: metaDescription, h1,
     practice_area: keyword, city, state, state_code: stateCode, county,
-    content_markdown: content, faq: JSON.stringify(faqSet), schema_json: JSON.stringify(schema),
+    content_markdown: content, faq: faqSet, schema_json: { "@graph": schema },
     canonical_path: routePath, status: "published", ...(launchedSiteId ? { launched_site_id: launchedSiteId } : {}),
   };
 }
