@@ -1,0 +1,118 @@
+{
+  "name": "GeneratorDefinition",
+  "type": "object",
+  "properties": {
+    "generator_key": {
+      "type": "string",
+      "description": "Stable generator key (lowercase, hyphenated)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Generator display name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "code",
+        "ai",
+        "business",
+        "consulting",
+        "marketing",
+        "data",
+        "infra",
+        "design",
+        "compound"
+      ],
+      "default": "ai"
+    },
+    "generator_type": {
+      "type": "string",
+      "description": "Generator type identifier"
+    },
+    "version": {
+      "type": "string",
+      "default": "1.0.0",
+      "description": "Semantic version"
+    },
+    "definition": {
+      "type": "object",
+      "description": "Full generator DSL definition (DAG of steps)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "validated",
+        "approved",
+        "frozen",
+        "deprecated",
+        "restored"
+      ],
+      "default": "draft"
+    },
+    "description": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Declared capabilities"
+    },
+    "launched_site_id": {
+      "type": "string",
+      "description": "Optional: site this generator belongs to"
+    }
+  },
+  "required": [
+    "generator_key",
+    "name",
+    "version",
+    "definition",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

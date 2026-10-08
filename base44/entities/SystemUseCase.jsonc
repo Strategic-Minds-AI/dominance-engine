@@ -1,0 +1,126 @@
+{
+  "name": "SystemUseCase",
+  "type": "object",
+  "properties": {
+    "use_case_id": {
+      "type": "string",
+      "description": "X1 use case ID (e.g. X1-01-01-01)"
+    },
+    "industry_number": {
+      "type": "number",
+      "description": "Industry index (1-20)"
+    },
+    "industry": {
+      "type": "string",
+      "description": "Industry name"
+    },
+    "subindustry_number": {
+      "type": "number"
+    },
+    "subindustry": {
+      "type": "string"
+    },
+    "example_number": {
+      "type": "number"
+    },
+    "system_archetype": {
+      "type": "string",
+      "description": "System archetype (e.g. Domain Copilot & Knowledge Workspace)"
+    },
+    "system_idea": {
+      "type": "string",
+      "description": "System idea title"
+    },
+    "core_outcome": {
+      "type": "string",
+      "description": "Core outcome description"
+    },
+    "frontend_surfaces": {
+      "type": "string"
+    },
+    "backend_components": {
+      "type": "string"
+    },
+    "agents_ai": {
+      "type": "string",
+      "description": "Agents / AI components"
+    },
+    "key_connectors": {
+      "type": "string"
+    },
+    "autonomy": {
+      "type": "number",
+      "description": "Autonomy score (1-5)"
+    },
+    "monetization": {
+      "type": "number",
+      "description": "Monetization potential (1-5)"
+    },
+    "complexity": {
+      "type": "number",
+      "description": "Complexity (1-5)"
+    },
+    "repeatability": {
+      "type": "number",
+      "description": "Repeatability (1-5)"
+    },
+    "monetization_model": {
+      "type": "string"
+    },
+    "setup_price": {
+      "type": "number",
+      "description": "Illustrative setup price"
+    },
+    "monthly_price": {
+      "type": "number",
+      "description": "Illustrative monthly price"
+    },
+    "risk_class": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ],
+      "default": "LOW"
+    },
+    "protected_gates": {
+      "type": "string"
+    },
+    "opportunity_score": {
+      "type": "number",
+      "description": "Computed: Autonomy*0.35 + Monetization*0.35 + (6-Complexity)*0.15 + Repeatability*0.15"
+    },
+    "recommended_stack": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "use_case_id",
+    "industry",
+    "system_archetype",
+    "system_idea"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

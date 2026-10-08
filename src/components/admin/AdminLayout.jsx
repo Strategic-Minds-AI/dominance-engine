@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Factory, Eye, Server, RefreshCw, Package, Rocket, Bot,
-  Sparkles, Menu, X, ArrowLeft, ShieldCheck, Zap, Globe, Layers, FileCode, Activity, FlaskConical, Bot as BotIcon, Share2, Palette, Compass
+  Sparkles, Menu, X, ArrowLeft, ShieldCheck, Zap, Globe, Layers, FileCode, Activity, FlaskConical, Bot as BotIcon, Share2, Palette, Compass, Library
 } from "lucide-react";
 
 const NAV = [
   { to: "/admin", end: true, icon: LayoutDashboard, label: "Command Center" },
   { to: "/admin/create", icon: Compass, label: "Creation Hub" },
   { to: "/admin/visual-editor", icon: Palette, label: "Visual Editor" },
+  { to: "/admin/industry-library", icon: Library, label: "Industry Library" },
   { to: "/admin/apex", icon: ShieldCheck, label: "Apex Control" },
   { to: "/admin/sync", icon: Zap, label: "Sync Engine" },
   { to: "/admin/launched-sites", icon: Globe, label: "Launched Sites" },
