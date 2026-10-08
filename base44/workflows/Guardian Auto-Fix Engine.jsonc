@@ -1,0 +1,45 @@
+{
+  "description": "Autonomous guardian that scans all websites and Google consoles every 30 minutes, 24/7. Auto-fixes issues (missing sitemaps, unpublished pages, stuck statuses, unsynced counts) and creates approval tasks for items needing human action (GSC/Analytics connection).",
+  "name": "Guardian Auto-Fix Engine",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "guardian_auto_fix",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_guardian": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "guardianScan",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Run guardian scan",
+            "description": "Scans all sites, auto-fixes issues, creates approval tasks for manual items"
+          }
+        }
+      }
+    ]
+  },
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "*/30 * * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  }
+}

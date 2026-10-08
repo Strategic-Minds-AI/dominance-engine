@@ -1,0 +1,45 @@
+{
+  "description": "Processes the SyncJob queue every hour, 24/7. GPT analyzes each job and installs websites, apps, logos, agents, content, or anything else requested.",
+  "name": "24/7 Universal Sync Engine",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "universal_sync_engine",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "process_queue": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "syncEngine",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Process sync queue",
+            "description": "GPT installs pending jobs from the 24/7 queue"
+          }
+        }
+      }
+    ]
+  },
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 * * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  }
+}
