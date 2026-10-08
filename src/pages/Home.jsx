@@ -26,7 +26,7 @@ export default function Home() {
       <img
         src={HERO_URL}
         alt="Strategic Minds AI — Intelligence In Motion"
-        className="absolute inset-0 h-full w-full object-cover object-top"
+        className="absolute inset-0 h-full w-full object-contain"
       />
       {/* Bottom gradient for CTA legibility on any viewport */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/2 bg-gradient-to-t from-[#00050A] via-[#00050A]/60 to-transparent" />
