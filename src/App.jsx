@@ -23,6 +23,17 @@ import GptSync from '@/pages/admin/GptSync';
 import Packs from '@/pages/admin/Packs';
 import Pipeline from '@/pages/admin/Pipeline';
 import SuperAgents from '@/pages/admin/SuperAgents';
+import ApexControl from '@/pages/ApexControl';
+import SyncDashboard from '@/pages/SyncDashboard';
+import LaunchedSites from '@/pages/LaunchedSites';
+import Programmatic from '@/pages/Programmatic';
+import Studio from '@/pages/Studio';
+import Dominance from '@/pages/Dominance';
+import Experiments from '@/pages/Experiments';
+import EdenAvatarStudio from '@/pages/EdenAvatarStudio';
+import SiteVersionView from '@/pages/SiteVersionView';
+import ClientPortal from '@/pages/ClientPortal';
+import LegalPageView from '@/pages/LegalPageView';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -55,6 +66,9 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/v/:slug" element={<SiteVersionView />} />
+      <Route path="/portal/:slug" element={<ClientPortal />} />
+      <Route path="/legal/:slug" element={<LegalPageView />} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
@@ -66,6 +80,14 @@ const AuthenticatedApp = () => {
           <Route path="packs" element={<Packs />} />
           <Route path="pipeline" element={<Pipeline />} />
           <Route path="super-agents" element={<SuperAgents />} />
+          <Route path="apex" element={<ApexControl />} />
+          <Route path="sync" element={<SyncDashboard />} />
+          <Route path="launched-sites" element={<LaunchedSites />} />
+          <Route path="programmatic" element={<Programmatic />} />
+          <Route path="studio" element={<Studio />} />
+          <Route path="dominance" element={<Dominance />} />
+          <Route path="experiments" element={<Experiments />} />
+          <Route path="eden-avatar" element={<EdenAvatarStudio />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

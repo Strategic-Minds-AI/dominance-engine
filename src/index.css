@@ -134,6 +134,34 @@
     animation: dd-kenburns 30s ease-in-out infinite alternate;
     will-change: transform;
   }
+  .font-heading { font-family: var(--font-heading); }
+  .font-display { font-family: var(--font-display); }
+  .rule-line { background: linear-gradient(to right, transparent, hsl(var(--foreground) / 0.25), transparent); }
+  .ink-spread { position: relative; overflow: hidden; isolation: isolate; }
+  .ink-spread::after {
+    content: ""; position: absolute; inset: 0; background: hsl(var(--foreground));
+    transform: translateY(101%); transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1); z-index: -1;
+  }
+  .ink-spread:hover::after { transform: translateY(0); }
+  .ink-spread:hover { color: hsl(var(--background)); }
+  .slide-door { transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1); }
+  .stamp-in { animation: stampIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .marquee { animation: marquee 40s linear infinite; }
+  .briefing-input {
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid hsl(var(--background) / 0.3);
+    color: hsl(var(--background)); font-size: 1rem; padding: 0.5rem 0; outline: none;
+  }
+  .briefing-input:focus { border-color: hsl(var(--background)); }
+  .briefing-input::placeholder { color: hsl(var(--background) / 0.35); }
+}
+
+@keyframes stampIn {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 @keyframes dd-kenburns {

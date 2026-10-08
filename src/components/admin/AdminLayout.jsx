@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Factory, Eye, Server, RefreshCw, Package, Rocket, Bot,
-  Sparkles, Menu, X, ArrowLeft, ShieldCheck
+  Sparkles, Menu, X, ArrowLeft, ShieldCheck, Zap, Globe, Layers, FileCode, Activity, FlaskConical, Bot as BotIcon
 } from "lucide-react";
 
 const NAV = [
   { to: "/admin", end: true, icon: LayoutDashboard, label: "Command Center" },
+  { to: "/admin/apex", icon: ShieldCheck, label: "Apex Control" },
+  { to: "/admin/sync", icon: Zap, label: "Sync Engine" },
+  { to: "/admin/launched-sites", icon: Globe, label: "Launched Sites" },
+  { to: "/admin/programmatic", icon: Rocket, label: "Programmatic" },
+  { to: "/admin/studio", icon: Layers, label: "Studio" },
+  { to: "/admin/dominance", icon: FileCode, label: "Dominance" },
+  { to: "/admin/experiments", icon: Activity, label: "Experiments" },
+  { to: "/admin/eden-avatar", icon: BotIcon, label: "Eden Avatar" },
   { to: "/admin/opportunities", icon: Radar, label: "Opportunity Radar" },
   { to: "/admin/website-factory", icon: Factory, label: "Website Factory" },
   { to: "/admin/preview", icon: Eye, label: "Preview" },
