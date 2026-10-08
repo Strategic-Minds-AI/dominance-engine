@@ -6,6 +6,17 @@
       "type": "string",
       "description": "Agent handling this conversation"
     },
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite this conversation belongs to"
+    },
+    "provider": {
+      "type": "string",
+      "default": "vercel_ai_gateway"
+    },
+    "model": {
+      "type": "string"
+    },
     "metadata": {
       "type": "object",
       "description": "Optional session metadata"
@@ -28,7 +39,16 @@
       ]
     },
     "create": {
-      "created_by_id": "{{user.id}}"
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
     },
     "update": {
       "$or": [
