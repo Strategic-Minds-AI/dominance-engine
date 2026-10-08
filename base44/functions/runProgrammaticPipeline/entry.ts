@@ -390,24 +390,36 @@ export default async function (req: Request): Promise<Response> {
           let gscExternalRef = "";
           if (gscConnector?.accessToken) {
             try {
-              // Best-effort live submission via GSC API (site URL encoded).
               const siteUrl = encodeURIComponent(`https://${domain}`);
+              const authHdr = { Authorization: `Bearer ${gscConnector.accessToken}` };
+              // 1. Register the property in Search Console. DNS/HTML verification
+              //    is still required before sitemaps can be submitted, but this
+              //    pre-claims the site in the operator's GSC account.
+              let regOk = false;
+              try {
+                const regRes = await fetch(
+                  `https://www.googleapis.com/webmasters/v3/sites/${siteUrl}`,
+                  { method: "PUT", headers: authHdr, signal: AbortSignal.timeout(10000) }
+                );
+                regOk = regRes.ok || regRes.status === 409; // 409 = already added
+              } catch (_e) {
+                /* registration best-effort */
+              }
+              // 2. Submit the sitemap (succeeds once the property is verified).
               const submitRes = await fetch(
                 `https://www.googleapis.com/webmasters/v3/sites/${siteUrl}/sitemaps/${encodeURIComponent(
                   `https://${domain}/sitemap.xml`
                 )}`,
-                {
-                  method: "PUT",
-                  headers: { Authorization: `Bearer ${gscConnector.accessToken}` },
-                  signal: AbortSignal.timeout(15000),
-                }
+                { method: "PUT", headers: authHdr, signal: AbortSignal.timeout(15000) }
               );
               if (submitRes.ok) {
                 gscStatus = "success";
                 gscExternalRef = `https://${domain}/sitemap.xml`;
-                gscLog = "Sitemap submitted to Google Search Console.";
+                gscLog = regOk
+                  ? "Property registered + sitemap submitted to Google Search Console."
+                  : "Sitemap submitted to Google Search Console.";
               } else {
-                gscLog = `GSC submit returned ${submitRes.status}. Job retained as approval_required.`;
+                gscLog = `GSC sitemap submit returned ${submitRes.status} (property may need DNS verification). Job retained as approval_required.`;
               }
             } catch (e: any) {
               gscLog = `GSC submit failed: ${e.message}. Job retained as approval_required.`;
