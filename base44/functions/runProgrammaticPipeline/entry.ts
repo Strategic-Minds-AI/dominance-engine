@@ -89,6 +89,33 @@ function buildSitemapXml(domain: string, pages: any[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
 }
 
+function escapeXml(s: string): string {
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function buildRobotsTxt(domain: string): string {
+  return `User-agent: *\nAllow: /\n\nSitemap: https://${domain}/sitemap.xml\n`;
+}
+
+function buildRssXml(
+  domain: string,
+  siteName: string,
+  pages: any[],
+  service: string
+): string {
+  const pubDate = new Date().toUTCString();
+  const items = pages
+    .map((p: any) => {
+      const path = p.slug ? `/${p.slug}` : "/";
+      return `    <item>\n      <title>${escapeXml(p.title || siteName)}</title>\n      <link>https://${domain}${path}</link>\n      <guid>https://${domain}${path}</guid>\n      <description>${escapeXml(p.meta_description || "")}</description>\n      <pubDate>${pubDate}</pubDate>\n    </item>`;
+    })
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>${escapeXml(siteName)}</title>\n    <link>https://${domain}/</link>\n    <description>${escapeXml(service)} updates</description>\n    <lastBuildDate>${pubDate}</lastBuildDate>\n${items}\n  </channel>\n</rss>`;
+}
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -199,13 +226,82 @@ export default async function (req: Request): Promise<Response> {
         const mutatedPages = basePages.map((p: any) => {
           const repl = (txt: any) =>
             replaceLoc(txt, fromCity, t.city, fromMetro, t.metro, fromState, t.state);
-          let schema: any = p.schema_json
+          let baseSchema: any = p.schema_json
             ? JSON.parse(JSON.stringify(p.schema_json))
             : {};
-          if (schema.areaServed)
-            schema.areaServed = { "@type": "City", name: t.city };
-          if (baseSite.phone && !schema.telephone)
-            schema.telephone = baseSite.phone;
+          if (baseSchema.areaServed)
+            baseSchema.areaServed = { "@type": "City", name: t.city };
+          if (baseSite.phone && !baseSchema.telephone)
+            baseSchema.telephone = baseSite.phone;
+
+          const faqMut = (p.faq || []).map((f: any) => ({
+            q: repl(f.q),
+            a: repl(f.a),
+          }));
+
+          // Internal links to sibling pages (page-change matrix: internal links)
+          const internalLinks = basePages
+            .filter((x: any) => x.slug !== p.slug)
+            .map((x: any) => ({
+              slug: x.slug,
+              type: x.page_type,
+              anchor: x.page_type === "home" ? "Home" : repl(x.h1 || x.page_type),
+            }));
+
+          const sectionsMut = (p.sections || []).map((s: any) => ({
+            ...s,
+            heading: repl(s.heading),
+            body: repl(s.body),
+          }));
+          sectionsMut.push({
+            heading: `Related ${service.toLowerCase()} pages for ${t.city}`,
+            body: internalLinks
+              .map(
+                (l: any) =>
+                  `${l.anchor} — https://${domain}${l.slug ? "/" + l.slug : "/"}`
+              )
+              .join("\n"),
+            layer: "Internal links",
+            links: internalLinks.map((l: any) => ({
+              url: `https://${domain}${l.slug ? "/" + l.slug : "/"}`,
+              anchor: l.anchor,
+            })),
+          });
+
+          // Enhanced JSON-LD: main entity + FAQPage + BreadcrumbList (@graph)
+          const graph: any[] = [baseSchema];
+          if (faqMut.length) {
+            graph.push({
+              "@type": "FAQPage",
+              mainEntity: faqMut.map((f: any) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            });
+          }
+          graph.push({
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: `https://${domain}/`,
+              },
+              ...(p.slug
+                ? [
+                    {
+                      "@type": "ListItem",
+                      position: 2,
+                      name: p.page_type,
+                      item: `https://${domain}/${p.slug}`,
+                    },
+                  ]
+                : []),
+            ],
+          });
+
           return {
             website_name: siteName,
             slug: p.slug,
@@ -214,25 +310,27 @@ export default async function (req: Request): Promise<Response> {
             h1: repl(p.h1),
             meta_description: repl(p.meta_description),
             intro: repl(p.intro),
-            sections: (p.sections || []).map((s: any) => ({
-              ...s,
-              heading: repl(s.heading),
-              body: repl(s.body),
-            })),
-            faq: (p.faq || []).map((f: any) => ({
-              q: repl(f.q),
-              a: repl(f.a),
-            })),
-            schema_json: schema,
+            sections: sectionsMut,
+            faq: faqMut,
+            schema_json: { "@context": "https://schema.org", "@graph": graph },
             intent: p.intent,
             canonical_url: p.canonical_url,
-            differentiation_layers: p.differentiation_layers || [],
-            compliance_flags: p.compliance_flags || [],
+            differentiation_layers: [
+              ...(p.differentiation_layers || []),
+              "Internal links",
+            ],
+            compliance_flags: [
+              ...(p.compliance_flags || []),
+              "enhanced_schema",
+              "internal_links",
+            ],
             status: "generated" as const,
           };
         });
 
         const sitemapXml = buildSitemapXml(domain, basePages);
+        const robotsTxt = buildRobotsTxt(domain);
+        const rssXml = buildRssXml(domain, siteName, basePages, service);
 
         // ── Create the localized Website record ──────────────────────────
         const website: any = await base44.entities.Website.create({
@@ -264,6 +362,8 @@ export default async function (req: Request): Promise<Response> {
           provision_state: {
             sitemap_xml: sitemapXml,
             sitemap_url: `https://${domain}/sitemap.xml`,
+            robots_txt: robotsTxt,
+            rss_xml: rssXml,
             site_url: `https://${domain}`,
           },
           deploy_url: `https://${domain}`,
@@ -369,6 +469,7 @@ export default async function (req: Request): Promise<Response> {
       base: { service, from: `${fromCity}, ${fromState}` },
       targets: targets.length,
       websites_created: created_sites.length,
+      created_site_ids: created_sites,
       pages_created: created_pages,
       jobs_created: created_jobs,
       sitemaps_generated: sitemaps,

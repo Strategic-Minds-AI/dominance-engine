@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
   Rocket, Factory, Wand2, Search, Network, Share2, TrendingUp,
-  RefreshCw, Loader2, CheckCircle2, AlertTriangle, X, Plus, ArrowRight,
+  RefreshCw, Loader2, CheckCircle2, AlertTriangle, X, Plus, ArrowRight, Upload,
 } from "lucide-react";
 import { METROS } from "@/data/dominanceRegistry";
 import { PIPELINE_STAGES, CITATION_DIRECTORIES } from "@/data/pipelineLibrary";
@@ -38,6 +38,13 @@ export default function Pipeline() {
     onSuccess: (data) => setResult(data),
   });
 
+  const ping = useMutation({
+    mutationFn: async (ids) => {
+      const res = await base44.functions.invoke("pingIndex", { website_ids: ids });
+      return res?.data;
+    },
+  });
+
   const addMetro = (m) => {
     const v = (m || "").trim();
     if (!v) return;
@@ -45,6 +52,30 @@ export default function Pipeline() {
     setMetroInput("");
   };
   const removeMetro = (m) => setMetros(metros.filter((x) => x !== m));
+
+  const handleCsv = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const lines = String(reader.result || "")
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter(Boolean);
+      // skip a header row if it looks like one
+      const filtered = lines.filter((l) => !/^(city|metro|location)/i.test(l));
+      const parsed = filtered
+        .map((l) => {
+          const cols = l.split(",").map((c) => c.trim());
+          if (cols.length >= 2) return `${cols[0]}, ${cols[1]}`;
+          return cols[0];
+        })
+        .filter(Boolean);
+      setMetros((prev) => [...new Set([...prev, ...parsed])]);
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
 
   const canRun = baseId && metros.length > 0 && !run.isPending;
 
@@ -171,6 +202,11 @@ export default function Pipeline() {
               </button>
             </div>
 
+            <label className="mt-2 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-white/15 bg-white/[0.02] px-3 py-1.5 text-xs text-white/50 hover:border-[#00f2ff]/40 hover:text-[#00f2ff]">
+              <Upload className="h-3.5 w-3.5" /> Bulk import CSV (city, state)
+              <input type="file" accept=".csv,.txt" onChange={handleCsv} className="hidden" />
+            </label>
+
             {/* Quick add from registry */}
             <div className="mt-3 flex flex-wrap gap-1.5">
               {METROS.slice(0, 12).map((m) => (
@@ -287,6 +323,28 @@ export default function Pipeline() {
                     ))}
                   </ul>
                 </div>
+              )}
+              {result.created_site_ids?.length > 0 && (
+                <button
+                  onClick={() => ping.mutate(result.created_site_ids)}
+                  disabled={ping.isPending}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-[#00f2ff]/40 bg-[#00f2ff]/10 px-3 py-2 text-xs font-semibold text-[#00f2ff] hover:bg-[#00f2ff]/20 disabled:opacity-50"
+                >
+                  {ping.isPending ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" /> Pinging IndexNow…
+                    </>
+                  ) : (
+                    <>
+                      <Search className="h-3.5 w-3.5" /> Ping IndexNow (Bing + Yandex)
+                    </>
+                  )}
+                </button>
+              )}
+              {ping.data && (
+                <p className="mt-2 text-[11px] text-emerald-300">
+                  Pinged {ping.data.pinged} site(s) · {ping.data.sites_with_at_least_one_ok} reached an indexer. Host each key file at its keyFileUrl to validate.
+                </p>
               )}
               <Link
                 to="/admin/provisioning"
