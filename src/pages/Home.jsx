@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Phone } from "lucide-react";
-import { Image } from "@/components/ui/image";
 
 const HERO_URL =
   "https://media.base44.com/images/public/6ac7bc6cf0b681d8bc7f7aeb/cf93062aa_FACEBOOKIMAGE2.png";
@@ -27,11 +26,10 @@ export default function Home() {
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10 sm:px-8">
         <div className="relative w-full max-w-2xl">
           <div className="overflow-hidden rounded-2xl ring-1 ring-[#00D4FF]/30 shadow-[0_0_60px_rgba(0,212,255,0.25)]">
-            <Image
+            <img
               src={HERO_URL}
               alt="Strategic Minds AI — Intelligence In Motion"
-              fittingType="fit"
-              className="w-full"
+              className="block w-full h-auto"
             />
           </div>
 
