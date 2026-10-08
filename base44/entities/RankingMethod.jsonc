@@ -1,0 +1,121 @@
+{
+  "name": "RankingMethod",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "technical",
+        "content",
+        "authority",
+        "ai_search",
+        "local",
+        "programmatic",
+        "ux",
+        "link_building",
+        "brand",
+        "social",
+        "measurement"
+      ],
+      "default": "content"
+    },
+    "speed_tier": {
+      "type": "string",
+      "enum": [
+        "instant",
+        "fast",
+        "medium",
+        "slow"
+      ],
+      "default": "fast"
+    },
+    "industry_scope": {
+      "type": "string",
+      "default": "all"
+    },
+    "mechanism": {
+      "type": "string"
+    },
+    "implementation_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "expected_impact": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "safe",
+        "moderate",
+        "aggressive",
+        "black_hat"
+      ],
+      "default": "safe"
+    },
+    "source": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "proof_level": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "testing",
+        "validated",
+        "deprecated"
+      ],
+      "default": "discovered"
+    },
+    "discovered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generator_run_id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

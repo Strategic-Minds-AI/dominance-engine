@@ -1,0 +1,91 @@
+{
+  "name": "AuthorityDeliverable",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "partner_domain": {
+      "type": "string"
+    },
+    "target_url": {
+      "type": "string"
+    },
+    "deliverable": {
+      "type": "string"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "directory_listing",
+        "case_study",
+        "co_marketing_page",
+        "resource_page",
+        "spec_document",
+        "other"
+      ],
+      "default": "directory_listing"
+    },
+    "modeled_p_cross_boost": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "identified",
+        "requested",
+        "in_progress",
+        "live",
+        "verified",
+        "declined"
+      ],
+      "default": "identified"
+    },
+    "live_url": {
+      "type": "string"
+    },
+    "verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "INFERRED",
+        "MODELED"
+      ],
+      "default": "MODELED"
+    }
+  },
+  "required": [
+    "partner_domain",
+    "deliverable"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

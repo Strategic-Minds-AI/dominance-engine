@@ -1,0 +1,118 @@
+{
+  "name": "UrlScoreSnapshot",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "week_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "snapshot_key": {
+      "type": "string"
+    },
+    "score": {
+      "type": "number",
+      "default": 0
+    },
+    "best_rank": {
+      "type": "number"
+    },
+    "avg_rank": {
+      "type": "number"
+    },
+    "queries_tracked": {
+      "type": "number",
+      "default": 0
+    },
+    "queries_top3": {
+      "type": "number",
+      "default": 0
+    },
+    "queries_page_one": {
+      "type": "number",
+      "default": 0
+    },
+    "impressions": {
+      "type": "number",
+      "default": 0
+    },
+    "clicks": {
+      "type": "number",
+      "default": 0
+    },
+    "ctr": {
+      "type": "number",
+      "default": 0
+    },
+    "traffic_estimate": {
+      "type": "number",
+      "default": 0
+    },
+    "growth_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "open_asymmetries": {
+      "type": "number",
+      "default": 0
+    },
+    "treatments_deployed": {
+      "type": "number",
+      "default": 0
+    },
+    "blocked_count": {
+      "type": "number",
+      "default": 0
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "PROVIDER",
+        "INFERRED",
+        "MODELED",
+        "UNOBSERVED"
+      ],
+      "default": "MEASURED"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "url",
+    "week_start"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

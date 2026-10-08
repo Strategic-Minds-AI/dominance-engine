@@ -1,0 +1,87 @@
+{
+  "name": "TwinMutation",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "generation": {
+      "type": "number",
+      "default": 1
+    },
+    "config": {
+      "type": "string"
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "predicted_rank": {
+      "type": "number"
+    },
+    "predicted_delta": {
+      "type": "number",
+      "default": 0
+    },
+    "is_winner": {
+      "type": "boolean",
+      "default": false
+    },
+    "deployed": {
+      "type": "boolean",
+      "default": false
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MODELED"
+      ],
+      "default": "MODELED"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "session_id",
+    "url"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

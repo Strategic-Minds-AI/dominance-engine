@@ -1,0 +1,133 @@
+{
+  "name": "ReflectionRecord",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "cycle_id": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "reflect",
+        "analyze",
+        "detect",
+        "recommend",
+        "implement",
+        "validate",
+        "audit",
+        "self_reflect"
+      ],
+      "default": "reflect"
+    },
+    "url": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "deployed": {
+      "type": "string"
+    },
+    "expected": {
+      "type": "string"
+    },
+    "measured": {
+      "type": "string"
+    },
+    "expected_score": {
+      "type": "number"
+    },
+    "measured_score": {
+      "type": "number"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "pending",
+        "not_applicable"
+      ],
+      "default": "pending"
+    },
+    "failed_guidelines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "regressions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "auto_fix_attempted": {
+      "type": "boolean",
+      "default": false
+    },
+    "auto_fix_result": {
+      "type": "string",
+      "enum": [
+        "fixed",
+        "hardened",
+        "rolled_back",
+        "unresolved",
+        "none"
+      ],
+      "default": "none"
+    },
+    "rolled_back_to": {
+      "type": "string"
+    },
+    "binding_constraint": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "MODELED",
+        "INFERRED",
+        "UNKNOWN"
+      ],
+      "default": "MEASURED"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "cycle_id"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

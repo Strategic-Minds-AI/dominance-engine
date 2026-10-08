@@ -1,0 +1,87 @@
+{
+  "name": "Competitor",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "industry": {
+      "type": "string"
+    },
+    "shared_query_count": {
+      "type": "number"
+    },
+    "measured_wins": {
+      "type": "number"
+    },
+    "measured_losses": {
+      "type": "number"
+    },
+    "authority_signal": {
+      "type": "number"
+    },
+    "authority_provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "PROVIDER",
+        "INFERRED",
+        "MODELED",
+        "UNKNOWN"
+      ],
+      "default": "UNKNOWN"
+    },
+    "content_velocity": {
+      "type": "number"
+    },
+    "twin_provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "PROVIDER",
+        "INFERRED",
+        "UNKNOWN"
+      ],
+      "default": "INFERRED"
+    },
+    "last_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

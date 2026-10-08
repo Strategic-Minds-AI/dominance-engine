@@ -1,0 +1,73 @@
+{
+  "name": "ResearchFinding",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "finding": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "PROVIDER",
+        "INFERRED",
+        "MODELED"
+      ],
+      "default": "INFERRED"
+    },
+    "value_score": {
+      "type": "number"
+    },
+    "readiness_score": {
+      "type": "number"
+    },
+    "risk_score": {
+      "type": "number"
+    },
+    "competitive_advantage": {
+      "type": "number"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "topic"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

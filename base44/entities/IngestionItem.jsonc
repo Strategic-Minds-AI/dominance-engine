@@ -1,0 +1,197 @@
+{
+  "name": "IngestionItem",
+  "type": "object",
+  "properties": {
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "prompt",
+        "voice",
+        "video",
+        "url",
+        "folder",
+        "file",
+        "document",
+        "code",
+        "data",
+        "config",
+        "archive"
+      ]
+    },
+    "source_name": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "file_uri": {
+      "type": "string"
+    },
+    "signed_url": {
+      "type": "string"
+    },
+    "mime_type": {
+      "type": "string"
+    },
+    "size_bytes": {
+      "type": "number",
+      "default": 0
+    },
+    "content_text": {
+      "type": "string"
+    },
+    "content_summary": {
+      "type": "string"
+    },
+    "raw_metadata": {
+      "type": "string"
+    },
+    "filter_accuracy": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "filter_accuracy_reason": {
+      "type": "string"
+    },
+    "filter_honesty": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "filter_honesty_reason": {
+      "type": "string"
+    },
+    "filter_utility": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "filter_utility_reason": {
+      "type": "string"
+    },
+    "utility_action": {
+      "type": "string",
+      "enum": [
+        "fix",
+        "connect",
+        "heal",
+        "harden",
+        "optimize",
+        "evolve",
+        "none"
+      ],
+      "default": "none"
+    },
+    "utility_target": {
+      "type": "string"
+    },
+    "utility_verification": {
+      "type": "string"
+    },
+    "protocol_compliance": {
+      "type": "boolean",
+      "default": false
+    },
+    "protocol_violations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ingested",
+        "filtering",
+        "approved",
+        "questionable",
+        "trashed",
+        "applied"
+      ],
+      "default": "ingested"
+    },
+    "questionable_reason": {
+      "type": "string"
+    },
+    "audit_count": {
+      "type": "number",
+      "default": 0
+    },
+    "last_audited_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_audit_verdict": {
+      "type": "string",
+      "enum": [
+        "uphold",
+        "promote",
+        "trash",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "trashed_reason": {
+      "type": "string"
+    },
+    "trashed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ingested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "source_type",
+    "source_name"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

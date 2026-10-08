@@ -1,0 +1,83 @@
+{
+  "name": "SerpMeasurement",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "measured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "cloudbrowser_control",
+        "search_console",
+        "provider",
+        "operator"
+      ],
+      "default": "cloudbrowser_control"
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED",
+        "PROVIDER",
+        "INFERRED",
+        "UNKNOWN"
+      ],
+      "default": "MEASURED"
+    },
+    "rank": {
+      "type": "number"
+    },
+    "url": {
+      "type": "string"
+    },
+    "churn_score": {
+      "type": "number"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_uri": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "query"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

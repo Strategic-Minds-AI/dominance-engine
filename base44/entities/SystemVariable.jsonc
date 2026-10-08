@@ -1,0 +1,118 @@
+{
+  "name": "SystemVariable",
+  "type": "object",
+  "properties": {
+    "variable_key": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string",
+      "enum": [
+        "identity",
+        "classification",
+        "runtime",
+        "ai",
+        "ui",
+        "growth",
+        "economic",
+        "interop"
+      ],
+      "default": "identity"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "string",
+        "enum",
+        "number",
+        "boolean",
+        "array",
+        "object"
+      ],
+      "default": "string"
+    },
+    "default_value": {
+      "type": "string"
+    },
+    "allowed_values": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "impact_domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recalibration_actions": {
+      "type": "string"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "sensitivity": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "elevated",
+        "critical"
+      ],
+      "default": "normal"
+    },
+    "resolved_value": {
+      "type": "string"
+    },
+    "resolved_source": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unknown"
+      ],
+      "default": "unknown"
+    },
+    "is_assumption": {
+      "type": "boolean",
+      "default": false
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "variable_key"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

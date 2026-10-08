@@ -1,0 +1,168 @@
+{
+  "name": "OnboardingProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "client_id": {
+      "type": "string"
+    },
+    "company_name": {
+      "type": "string"
+    },
+    "contact_name": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "location_city": {
+      "type": "string"
+    },
+    "location_state": {
+      "type": "string"
+    },
+    "location_country": {
+      "type": "string",
+      "default": "US"
+    },
+    "industry": {
+      "type": "string"
+    },
+    "sub_industry": {
+      "type": "string"
+    },
+    "service_area": {
+      "type": "string",
+      "enum": [
+        "local",
+        "regional",
+        "national",
+        "international"
+      ],
+      "default": "local"
+    },
+    "target_audience": {
+      "type": "string"
+    },
+    "main_services": {
+      "type": "string"
+    },
+    "urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "competitor_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "desired_results": {
+      "type": "string"
+    },
+    "current_monthly_traffic": {
+      "type": "number"
+    },
+    "monthly_budget": {
+      "type": "number"
+    },
+    "google_search_console_connected": {
+      "type": "boolean",
+      "default": false
+    },
+    "google_analytics_connected": {
+      "type": "boolean",
+      "default": false
+    },
+    "agent_config": {
+      "type": "string"
+    },
+    "system_config": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "in_progress"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

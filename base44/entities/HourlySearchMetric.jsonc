@@ -1,0 +1,95 @@
+{
+  "name": "HourlySearchMetric",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "gsc_property": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "hour": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "clicks": {
+      "type": "number",
+      "default": 0
+    },
+    "impressions": {
+      "type": "number",
+      "default": 0
+    },
+    "ctr": {
+      "type": "number",
+      "default": 0
+    },
+    "avg_position": {
+      "type": "number",
+      "description": "GSC average position, never exact rank."
+    },
+    "data_state": {
+      "type": "string",
+      "enum": [
+        "HOURLY_ALL",
+        "ALL",
+        "FINAL"
+      ],
+      "default": "HOURLY_ALL"
+    },
+    "is_partial": {
+      "type": "boolean",
+      "default": true
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "MEASURED_GSC"
+      ],
+      "default": "MEASURED_GSC"
+    },
+    "ingested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "row_key": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "gsc_property",
+    "hour"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

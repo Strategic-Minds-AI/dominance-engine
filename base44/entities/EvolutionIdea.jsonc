@@ -1,0 +1,122 @@
+{
+  "name": "EvolutionIdea",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "strategy",
+        "tactic",
+        "method",
+        "tool",
+        "improvement",
+        "paradigm"
+      ],
+      "default": "improvement"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "self_reflection",
+        "llm_generation",
+        "web_research",
+        "anomaly_detection",
+        "competitor_analysis",
+        "user_input"
+      ],
+      "default": "llm_generation"
+    },
+    "simulated_impact_score": {
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "simulated_risk_score": {
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "simulated_ranking_delta": {
+      "type": "number",
+      "default": 0
+    },
+    "simulation_results": {
+      "type": "string"
+    },
+    "implementation_plan": {
+      "type": "string"
+    },
+    "why_novel": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "simulating",
+        "tested",
+        "promoted",
+        "archived",
+        "rejected"
+      ],
+      "default": "idea"
+    },
+    "promoted_to_entity": {
+      "type": "string"
+    },
+    "promoted_to_id": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "simulated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "promoted_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

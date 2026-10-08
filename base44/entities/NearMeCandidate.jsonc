@@ -1,0 +1,125 @@
+{
+  "name": "NearMeCandidate",
+  "type": "object",
+  "properties": {
+    "domain": {
+      "type": "string"
+    },
+    "niche": {
+      "type": "string"
+    },
+    "naics_sector": {
+      "type": "string"
+    },
+    "naics_code": {
+      "type": "string"
+    },
+    "pattern_type": {
+      "type": "string",
+      "enum": [
+        "nearme",
+        "near",
+        "nearyou",
+        "phrase"
+      ],
+      "default": "nearme"
+    },
+    "availability_status": {
+      "type": "string",
+      "enum": [
+        "unchecked",
+        "available",
+        "unavailable",
+        "premium",
+        "error"
+      ],
+      "default": "unchecked"
+    },
+    "availability_source": {
+      "type": "string",
+      "enum": [
+        "vercel",
+        "godaddy",
+        "both",
+        "none"
+      ],
+      "default": "none"
+    },
+    "registration_price": {
+      "type": "number",
+      "default": 0
+    },
+    "demand_score": {
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "search_volume_estimate": {
+      "type": "number",
+      "default": 0
+    },
+    "cpc_estimate": {
+      "type": "number",
+      "default": 0
+    },
+    "top_search_terms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ai_trend_summary": {
+      "type": "string"
+    },
+    "autocomplete_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "commercial_intent": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "domain"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

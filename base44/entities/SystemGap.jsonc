@@ -1,0 +1,93 @@
+{
+  "name": "SystemGap",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "measurement",
+        "intelligence",
+        "execution",
+        "orchestration",
+        "validation",
+        "speed",
+        "infrastructure",
+        "connectors"
+      ],
+      "default": "measurement"
+    },
+    "gap": {
+      "type": "string"
+    },
+    "recommendation": {
+      "type": "string"
+    },
+    "recommended_fix": {
+      "type": "string"
+    },
+    "dimension": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "high"
+    },
+    "phase": {
+      "type": "number",
+      "default": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "logged",
+        "implementing",
+        "implemented",
+        "needs_credentials",
+        "validated",
+        "deferred"
+      ],
+      "default": "logged"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "logged_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "gap"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

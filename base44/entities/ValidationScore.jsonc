@@ -1,0 +1,70 @@
+{
+  "name": "ValidationScore",
+  "type": "object",
+  "properties": {
+    "domain": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number",
+      "default": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "PENDING",
+        "FAIL",
+        "BLOCKED",
+        "N/A"
+      ],
+      "default": "PENDING"
+    },
+    "evidence": {
+      "type": "string"
+    },
+    "earned_score": {
+      "type": "number",
+      "default": 0
+    },
+    "blocking_reason": {
+      "type": "string"
+    },
+    "remediation": {
+      "type": "string"
+    },
+    "last_checked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "domain"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

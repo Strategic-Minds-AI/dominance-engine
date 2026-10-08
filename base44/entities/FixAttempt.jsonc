@@ -1,0 +1,82 @@
+{
+  "name": "FixAttempt",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string"
+    },
+    "gap_id": {
+      "type": "string"
+    },
+    "gap_type": {
+      "type": "string"
+    },
+    "asymmetry_class": {
+      "type": "string"
+    },
+    "attempt": {
+      "type": "number",
+      "default": 1
+    },
+    "approach": {
+      "type": "string"
+    },
+    "diagnosis": {
+      "type": "string"
+    },
+    "treatment": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "applied",
+        "validated",
+        "failed",
+        "exhausted"
+      ],
+      "default": "pending"
+    },
+    "error": {
+      "type": "string"
+    },
+    "validated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "url"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
