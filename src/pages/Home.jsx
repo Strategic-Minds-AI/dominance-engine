@@ -65,7 +65,7 @@ export default function Home() {
       <img
         src={heroUrl || FALLBACK_URL}
         alt="Strategic Minds AI — Intelligence In Motion"
-        className="absolute inset-0 h-full w-full object-cover dd-kenburns"
+        className="absolute left-0 right-0 top-6 -bottom-6 w-full object-cover dd-kenburns"
       />
 
       {/* Loading overlay while generating */}
