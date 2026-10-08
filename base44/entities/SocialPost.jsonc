@@ -1,0 +1,103 @@
+{
+  "name": "SocialPost",
+  "type": "object",
+  "properties": {
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite this post belongs to"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "facebook",
+        "instagram",
+        "twitter",
+        "linkedin",
+        "tiktok",
+        "google_business"
+      ],
+      "default": "facebook",
+      "description": "Social platform target"
+    },
+    "content": {
+      "type": "string",
+      "description": "Post caption text"
+    },
+    "hashtags": {
+      "type": "string",
+      "description": "Space-separated hashtags"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Image URL for the post"
+    },
+    "scheduled_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When to publish"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "posted",
+        "failed"
+      ],
+      "default": "draft"
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "launched_site_id",
+    "platform",
+    "content",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

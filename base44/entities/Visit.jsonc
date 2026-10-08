@@ -1,0 +1,43 @@
+{
+  "name": "Visit",
+  "type": "object",
+  "properties": {
+    "version_id": {
+      "type": "string",
+      "description": "SiteVersion id (empty for control)"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Variant slug, or _control for the React site"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Anonymous session id from localStorage"
+    },
+    "is_control": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "slug"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

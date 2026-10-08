@@ -1,0 +1,124 @@
+{
+  "name": "SyncJob",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "What this sync job installs or syncs"
+    },
+    "description": {
+      "type": "string",
+      "description": "Natural-language instructions for GPT \u2014 what to generate, install, or sync"
+    },
+    "job_type": {
+      "type": "string",
+      "enum": [
+        "website",
+        "app",
+        "system",
+        "logo",
+        "agents",
+        "content",
+        "social",
+        "seo",
+        "custom"
+      ],
+      "default": "custom",
+      "description": "Category of asset to install"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Optional URL to sync content from"
+    },
+    "target_site_id": {
+      "type": "string",
+      "description": "LaunchedSite to install into (optional)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "syncing",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "schedule": {
+      "type": "string",
+      "enum": [
+        "once",
+        "hourly",
+        "daily",
+        "weekly",
+        "continuous"
+      ],
+      "default": "once",
+      "description": "How often this job re-runs"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "result": {
+      "type": "string",
+      "description": "Summary of what was synced/installed"
+    },
+    "last_synced_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "next_sync_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actions_count": {
+      "type": "number",
+      "default": 0,
+      "description": "How many actions were executed in the last run"
+    },
+    "autonomous": {
+      "type": "boolean",
+      "default": true,
+      "description": "Can run without manual approval"
+    },
+    "gpt_model": {
+      "type": "string",
+      "default": "openai/gpt-4o",
+      "description": "Which GPT model to use for this job"
+    }
+  },
+  "required": [
+    "title",
+    "job_type",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

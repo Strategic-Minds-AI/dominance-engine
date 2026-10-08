@@ -1,0 +1,83 @@
+{
+  "name": "SiteVersion",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Version name"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL slug \u2014 version is live at /v/:slug"
+    },
+    "template_pack_id": {
+      "type": "string",
+      "description": "The approved web_pack/mockup this version renders"
+    },
+    "brand_pack_id": {
+      "type": "string",
+      "description": "Optional brand pack applied as override"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "live",
+        "archived"
+      ],
+      "default": "draft",
+      "description": "Only live versions are publicly accessible"
+    },
+    "is_primary": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true and live, this version renders at the site root /"
+    },
+    "ab_weight": {
+      "type": "number",
+      "default": 0,
+      "description": "A/B experiment traffic weight; 0 = not in experiment"
+    },
+    "description": {
+      "type": "string"
+    },
+    "config": {
+      "type": "string",
+      "description": "JSON string of optional render config"
+    }
+  },
+  "required": [
+    "name",
+    "slug",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.status": "live"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

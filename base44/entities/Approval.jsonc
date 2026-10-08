@@ -1,0 +1,62 @@
+{
+  "name": "Approval",
+  "type": "object",
+  "properties": {
+    "template_pack_id": {
+      "type": "string",
+      "description": "TemplatePack reference"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "requested_by_label": {
+      "type": "string"
+    },
+    "reviewer_note": {
+      "type": "string"
+    },
+    "request": {
+      "type": "string",
+      "description": "JSON string snapshot of the submission"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "template_pack_id",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

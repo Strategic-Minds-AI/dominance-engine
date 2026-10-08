@@ -1,0 +1,122 @@
+{
+  "name": "Mission",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Mission title"
+    },
+    "mission_id": {
+      "type": "string",
+      "description": "Canonical mission ID (DD-V4-XXX)"
+    },
+    "client_id": {
+      "type": "string",
+      "description": "Client this mission is for (optional)"
+    },
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite produced by this mission"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "discover",
+        "research",
+        "design",
+        "build",
+        "test",
+        "approve",
+        "provision",
+        "launch",
+        "optimize",
+        "measure"
+      ],
+      "default": "discover",
+      "description": "Current lifecycle stage"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "completed",
+        "failed"
+      ],
+      "default": "active"
+    },
+    "is_canary": {
+      "type": "boolean",
+      "default": false,
+      "description": "Is this the synthetic canary validation mission"
+    },
+    "description": {
+      "type": "string",
+      "description": "Mission objectives in natural language"
+    },
+    "business_brief": {
+      "type": "string",
+      "description": "GPT-generated business source-truth packet"
+    },
+    "target_domain": {
+      "type": "string"
+    },
+    "assigned_agents": {
+      "type": "string",
+      "description": "Comma-separated agent names from the fleet"
+    },
+    "checklist": {
+      "type": "string",
+      "description": "JSON map of stage\u2192{done:boolean, note:string}"
+    },
+    "canary_results": {
+      "type": "string",
+      "description": "JSON map of canary step\u2192{passed:boolean, evidence:string}"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "progress_pct": {
+      "type": "number",
+      "default": 0,
+      "description": "0-100 completion percentage"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "stage",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

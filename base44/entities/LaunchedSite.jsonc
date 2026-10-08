@@ -1,0 +1,116 @@
+{
+  "type": "object",
+  "name": "LaunchedSite",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "Client this site belongs to"
+    },
+    "name": {
+      "type": "string",
+      "description": "Launched site name"
+    },
+    "template_pack_id": {
+      "type": "string",
+      "description": "TemplatePack used for this site's design"
+    },
+    "site_version_id": {
+      "type": "string",
+      "description": "SiteVersion created for this launch"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL slug \u2014 site is live at /v/:slug"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Custom domain if connected"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "launching",
+        "live",
+        "error",
+        "paused"
+      ],
+      "default": "launching"
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Comma-separated target keywords / practice areas"
+    },
+    "locations_count": {
+      "type": "number",
+      "default": 0
+    },
+    "pages_count": {
+      "type": "number",
+      "default": 0
+    },
+    "gsc_connected": {
+      "type": "boolean",
+      "default": false
+    },
+    "gsc_property_url": {
+      "type": "string"
+    },
+    "analytics_connected": {
+      "type": "boolean",
+      "default": false
+    },
+    "analytics_property_id": {
+      "type": "string"
+    },
+    "sitemap_url": {
+      "type": "string"
+    },
+    "proof_url": {
+      "type": "string",
+      "description": "Link to proof that the site is launched"
+    },
+    "visits_count": {
+      "type": "number",
+      "default": 0
+    },
+    "last_synced_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "client_id",
+    "name",
+    "slug",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.status": "live"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

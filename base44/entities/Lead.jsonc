@@ -1,0 +1,95 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name of the prospective client"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "case_type": {
+      "type": "string",
+      "enum": [
+        "Car Accident",
+        "Truck Collision",
+        "Motorcycle Accident",
+        "Pedestrian Accident",
+        "Rideshare Accident",
+        "Bicycle Accident",
+        "Other"
+      ],
+      "description": "Type of vehicle accident"
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the accident occurred"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "Immediate",
+        "Within a week",
+        "Exploring options"
+      ],
+      "description": "How soon the prospect needs counsel"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the accident in the client's words"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "contacted",
+        "qualified",
+        "retained",
+        "closed"
+      ],
+      "default": "new",
+      "description": "Pipeline status managed from the admin dashboard"
+    },
+    "source": {
+      "type": "string",
+      "default": "funnel",
+      "description": "Where the lead entered the pipeline"
+    },
+    "variant": {
+      "type": "string",
+      "description": "A/B variant / frontend slug the lead came from"
+    },
+    "launched_site_id": {
+      "type": "string",
+      "description": "LaunchedSite this lead belongs to (for client portal CRM)"
+    }
+  },
+  "required": [
+    "name",
+    "case_type"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
