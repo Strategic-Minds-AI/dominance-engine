@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard, Radar, Factory, Eye, Server, RefreshCw, Package, Rocket,
+  LayoutDashboard, Radar, Factory, Eye, Server, RefreshCw, Package, Rocket, Bot,
   Sparkles, Menu, X, ArrowLeft, ShieldCheck
 } from "lucide-react";
 
@@ -14,6 +14,7 @@ const NAV = [
   { to: "/admin/gpt-sync", icon: RefreshCw, label: "GPT Sync" },
   { to: "/admin/packs", icon: Package, label: "Packs" },
   { to: "/admin/pipeline", icon: Rocket, label: "Pipeline" },
+  { to: "/admin/super-agents", icon: Bot, label: "Super Agents" },
 ];
 
 export default function AdminLayout() {

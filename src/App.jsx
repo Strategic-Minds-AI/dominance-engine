@@ -22,6 +22,7 @@ import Provisioning from '@/pages/admin/Provisioning';
 import GptSync from '@/pages/admin/GptSync';
 import Packs from '@/pages/admin/Packs';
 import Pipeline from '@/pages/admin/Pipeline';
+import SuperAgents from '@/pages/admin/SuperAgents';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -64,6 +65,7 @@ const AuthenticatedApp = () => {
           <Route path="gpt-sync" element={<GptSync />} />
           <Route path="packs" element={<Packs />} />
           <Route path="pipeline" element={<Pipeline />} />
+          <Route path="super-agents" element={<SuperAgents />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

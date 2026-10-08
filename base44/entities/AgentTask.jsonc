@@ -1,0 +1,106 @@
+{
+  "name": "AgentTask",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string",
+      "description": "Owning agent: orchestrator, swarm, growth_operator, code_architect, brand_guardian, social_strategist, sales_engine, replicator"
+    },
+    "task_type": {
+      "type": "string",
+      "description": "e.g. verify_ownership, submit_sitemap, configure_ga4, build_system, content_optimize, social_connect, google_connect, outreach, audit"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "needs_approval"
+      ],
+      "default": "pending"
+    },
+    "autonomous": {
+      "type": "boolean",
+      "default": false
+    },
+    "target_id": {
+      "type": "string",
+      "description": "Id of the target Website/Opportunity/Pack/ProvisioningJob record"
+    },
+    "target_type": {
+      "type": "string",
+      "description": "Website | Opportunity | Pack | ProvisioningJob"
+    },
+    "result": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "agent_name",
+    "task_type",
+    "title",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
