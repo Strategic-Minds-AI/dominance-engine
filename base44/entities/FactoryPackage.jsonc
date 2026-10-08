@@ -18,7 +18,12 @@
         "intel_generators",
         "market_intel",
         "opportunity_machine",
-        "google_ecosystem"
+        "google_ecosystem",
+        "apex_sales_hub",
+        "client_onboarding",
+        "local_leads_pro",
+        "organic_dropshipping",
+        "prompt_showcase"
       ]
     },
     "name": {
