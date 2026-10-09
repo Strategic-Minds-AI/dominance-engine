@@ -1,0 +1,32 @@
+name: Universal Dominance Library Contract Validation
+on:
+  pull_request:
+    paths:
+      - 'universal-library/**'
+      - '.github/workflows/universal-dominance-contracts.yml'
+  push:
+    branches:
+      - 'feature/universal-dominance-library-v1'
+    paths:
+      - 'universal-library/**'
+      - '.github/workflows/universal-dominance-contracts.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax validation
+        run: |
+          node --check universal-library/runtime/contracts.mjs
+          node --check universal-library/runtime/onboarding.mjs
+          node --check universal-library/runtime/contracts.test.mjs
+      - name: Contract and onboarding tests
+        run: node --test universal-library/runtime/contracts.test.mjs
+      - name: Validate registry JSON
+        run: node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('universal-library/schema/registry.json'));if(x.version!=='1.0.0'||!x.entities.length)process.exit(1)"

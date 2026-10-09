@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {normalizeEvent,nextState,authorizeAction,idempotentInsert} from './contracts.mjs';
+import {createOnboardingDraft,validateBrief,INDUSTRY_PACKS} from './onboarding.mjs';
+const context={tenant_id:'tenant_12345',event_id:'evt_1',entity_type:'client',entity_id:'cli_1',event_type:'created',source:'demo',idempotency_key:'once_1',payload_hash:'sha256:abcdef'};
+test('event envelope validates and normalizes',()=>{const e=normalizeEvent(context);assert.equal(e.version,1);assert.throws(()=>normalizeEvent({...context,tenant_id:'x'}));});
+test('event dedup is replay-safe',()=>{const ledger=new Set();const e=normalizeEvent(context);assert.equal(idempotentInsert(ledger,e).inserted,true);assert.equal(idempotentInsert(ledger,e).inserted,false)});
+test('QA and client approval gate lifecycle',()=>{assert.throws(()=>nextState('QA_PENDING','PREVIEW_READY'));assert.equal(nextState('QA_PENDING','PREVIEW_READY',{validated:true}),'PREVIEW_READY');assert.throws(()=>nextState('CLIENT_REVIEW','APPROVED'));assert.equal(nextState('CLIENT_REVIEW','APPROVED',{approved:true}),'APPROVED')});
+test('protected actions fail closed',()=>{assert.equal(authorizeAction('live_social_publish').allowed,false);assert.equal(authorizeAction('live_social_publish',{approval:true,independentReceipt:true,scopes:['live_social_publish']}).allowed,true)});
+test('industry onboarding requires actual client facts',()=>{const d=createOnboardingDraft({tenant_id:'tenant_12345',client_id:'cli_1',industry:'home-services'});assert.ok(INDUSTRY_PACKS['home-services']);assert.equal(validateBrief(d).valid,false)});
