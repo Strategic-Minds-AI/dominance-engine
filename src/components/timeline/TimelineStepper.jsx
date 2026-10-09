@@ -12,10 +12,10 @@ const PHASES = [
 export default function TimelineStepper({ currentPhase, completedPhases }) {
   return (
     <div className="relative px-2 py-8 sm:px-8">
-      {/* Progress line */}
-      <div className="absolute top-[44px] left-[8%] right-[8%] h-1 rounded-full bg-white/10" />
+      {/* Progress line — centered on the 64px circles (top 32px padding + 32px radius) */}
+      <div className="absolute top-[62px] left-[8%] right-[8%] h-1 rounded-full bg-white/5" />
       <motion.div
-        className="absolute top-[44px] left-[8%] h-1 rounded-full bg-gradient-to-r from-[#00f2ff] to-[#00d4ff]"
+        className="absolute top-[62px] left-[8%] h-1 rounded-full bg-gradient-to-r from-[#00f2ff] to-[#00d4ff]"
         initial={{ width: "0%" }}
         animate={{
           width: `${(completedPhases.length / (PHASES.length - 1)) * 84}%`,
