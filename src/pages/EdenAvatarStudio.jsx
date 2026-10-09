@@ -4,7 +4,7 @@ import { ArrowLeft, Mic, MicOff, Play, Square, Send, Sparkles, Volume2 } from "l
 import { Link } from "react-router-dom";
 import { Image } from "@/components/ui/image";
 
-const EDEN_IMG = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=750&q=80";
+const EDEN_IMG = "https://media.base44.com/images/public/6ac7bc6cf0b681d8bc7f7aeb/28a0b6e5a_FuturisticExecutiveattheHolographicConsole.png";
 
 const fields = [
   "first_name","address","phone","email","business_stage","business","vision","colors","special_requests"
