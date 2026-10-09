@@ -2,6 +2,9 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { ArrowLeft, Mic, MicOff, Play, Square, Send, Sparkles, Volume2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Image } from "@/components/ui/image";
+
+const EDEN_IMG = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=750&q=80";
 
 const fields = [
   "first_name","address","phone","email","business_stage","business","vision","colors","special_requests"
@@ -176,7 +179,7 @@ export default function EdenAvatarStudio() {
       <main className="max-w-7xl mx-auto px-6 py-10 grid lg:grid-cols-[420px_1fr] gap-8">
         <section className="rounded-[32px] border border-cyan-300/15 bg-gradient-to-b from-[#0b1a2a] to-[#060b12] p-5 shadow-[0_35px_100px_rgba(0,115,255,.20)] h-max">
           <div className={`relative overflow-hidden rounded-[26px] border border-cyan-300/20 ${speaking ? "shadow-[0_0_55px_rgba(36,183,255,.42)]" : ""}`}>
-            <img src="/eden-skye.webp" alt="Eden Skye, AI client concierge" className={`w-full aspect-[4/5] object-cover transition-transform duration-300 ${speaking ? "scale-[1.012]" : "scale-100"}`} />
+            <Image src={EDEN_IMG} alt="Eden Skye, AI client concierge" fittingType="fill" className={`w-full aspect-[4/5] object-cover transition-transform duration-300 ${speaking ? "scale-[1.012]" : "scale-100"}`} />
             <div className={`absolute inset-[10%] rounded-full border border-cyan-300/30 pointer-events-none ${speaking ? "animate-pulse opacity-100" : "opacity-30"}`} />
             <div className="absolute left-4 top-4 rounded-full border border-cyan-300/20 bg-black/50 px-3 py-1 text-[10px] tracking-[.18em] uppercase text-cyan-200 backdrop-blur">AI Concierge</div>
           </div>
