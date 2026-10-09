@@ -28,6 +28,19 @@ export default async function (req: Request): Promise<Response> {
     const bizState = state || "";
     const stage = business_stage || "build_new";
 
+    // Pull the synced GPT system instructions to guide generation
+    let syncInstructions = "";
+    try {
+      const syncConfigs = await svc.entities.GptSyncConfig.filter(
+        { sync_state: "synced" },
+        { sort: "-created_date", limit: 1 }
+      );
+      const syncConfig = syncConfigs.items?.[0] || syncConfigs?.[0];
+      if (syncConfig?.system_instructions) {
+        syncInstructions = syncConfig.system_instructions;
+      }
+    } catch { /* GptSyncConfig may not exist yet — continue without it */ }
+
     // Generate 10 mockup designs in a single AI call
     const prompt = `You are a world-class web design system generating 10 unique, production-ready website mockups.
 
@@ -60,9 +73,18 @@ RETURN ONLY a valid JSON object (no markdown, no code fences):
 
 Make each design genuinely unique — different layouts, typography pairings, color moods, and visual treatments.`;
 
+    const messages = [];
+    if (syncInstructions) {
+      messages.push({
+        role: "system",
+        content: `You are operating under the Digital Dominance GPT Sync system. Follow these synced system instructions when generating designs:\n\n${syncInstructions}`,
+      });
+    }
+    messages.push({ role: "user", content: prompt });
+
     const data = await gatewayPost("/chat/completions", {
       model: "openai/gpt-4o",
-      messages: [{ role: "user", content: prompt }],
+      messages,
       temperature: 0.9,
       max_tokens: 16000,
     }, 180000);

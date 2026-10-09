@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
-import { Loader2, Sparkles, Check, ArrowRight, X, Eye } from "lucide-react";
+import { Loader2, Sparkles, Check, ArrowRight, X, Eye, RefreshCw } from "lucide-react";
 
 export default function PhaseGptMockups({ onboarding, onComplete }) {
   const [loading, setLoading] = useState(false);
@@ -9,8 +9,10 @@ export default function PhaseGptMockups({ onboarding, onComplete }) {
   const [error, setError] = useState("");
   const [selected, setSelected] = useState(null);
   const [preview, setPreview] = useState(null);
+  const triggered = useRef(false);
 
   const generate = async () => {
+    if (!onboarding?.client_id) return;
     setLoading(true);
     setError("");
     setMockups([]);
@@ -32,6 +34,15 @@ export default function PhaseGptMockups({ onboarding, onComplete }) {
       setLoading(false);
     }
   };
+
+  // Auto-trigger mockup generation when business input arrives from onboarding
+  useEffect(() => {
+    if (triggered.current) return;
+    if (onboarding?.client_id && mockups.length === 0 && !loading) {
+      triggered.current = true;
+      generate();
+    }
+  }, [onboarding?.client_id]);
 
   const confirm = () => {
     if (!selected) return;
@@ -63,11 +74,14 @@ export default function PhaseGptMockups({ onboarding, onComplete }) {
             </div>
           </div>
           {mockups.length === 0 && !loading && (
+            <span className="text-xs text-white/40">Auto-generating from your business input...</span>
+          )}
+          {mockups.length > 0 && !loading && (
             <button
               onClick={generate}
-              className="inline-flex items-center gap-2 rounded-lg bg-[#00f2ff] px-5 py-2.5 text-sm font-bold text-black hover:bg-[#00d4ff]"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-white/70 hover:bg-white/10"
             >
-              <Sparkles className="h-4 w-4" /> Generate 10 Mockups
+              <RefreshCw className="h-3.5 w-3.5" /> Regenerate
             </button>
           )}
           {mockups.length > 0 && (
