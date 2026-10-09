@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams, Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { CORE_SERVICES, METROS, INTENTS, PATTERNS, slugify, patternDomain, GOOGLE_RULES, PROGRAMMATIC_SEO_GATES } from "@/data/dominanceRegistry";
-import { Factory, Loader2, Eye, CheckCircle2, AlertTriangle, ShieldCheck, Sparkles, Globe } from "lucide-react";
+import { Factory, Loader2, Eye, CheckCircle2, AlertTriangle, ShieldCheck, Sparkles, Globe, Search } from "lucide-react";
 
 const PAGE_TYPES = [
   { key: "home", label: "Home" },
@@ -33,6 +33,8 @@ export default function WebsiteFactory() {
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState(null);
   const [err, setErr] = useState("");
+  const [domainSearch, setDomainSearch] = useState(null);
+  const [domainSearching, setDomainSearching] = useState(false);
 
   const { data: sites } = useQuery({
     queryKey: ["dd-websites"],
@@ -42,6 +44,17 @@ export default function WebsiteFactory() {
   const svc = CORE_SERVICES.find((s) => s.name === form.service);
   const mt = METROS.find((m) => m.name === form.metro);
   const domain = patternDomain(svc?.slug, form.pattern);
+
+  const searchDomain = async () => {
+    if (!domain) return;
+    setDomainSearching(true); setDomainSearch(null);
+    try {
+      const res = await base44.functions.invoke("CheckDomainAvailability", { domain });
+      setDomainSearch(res.data || res);
+    } catch (e) {
+      setDomainSearch({ error: e.message });
+    } finally { setDomainSearching(false); }
+  };
 
   const togglePage = (key) =>
     setForm((f) => ({
@@ -231,6 +244,20 @@ export default function WebsiteFactory() {
               <span className="font-medium text-[#00d4ff]">{domain || "branded hub"}</span>
             </div>
             <p className="mt-1 text-xs text-white/40">Availability, trademark, licensing, and history must be verified before acquisition (URL Naming Rules).</p>
+            <button onClick={searchDomain} disabled={domainSearching || !domain} className="mt-3 inline-flex items-center gap-2 rounded-lg border border-[#00f2ff]/40 bg-[#00f2ff]/5 px-4 py-2 text-sm font-medium text-[#00f2ff] hover:bg-[#00f2ff]/10 disabled:opacity-40">
+              {domainSearching ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />} Run Full URL Name Search
+            </button>
+            {domainSearch && (
+              <div className={`mt-3 rounded-lg border p-3 text-sm ${domainSearch.error ? "border-red-500/30 bg-red-500/5 text-red-300" : domainSearch.available ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-300" : "border-amber-500/30 bg-amber-500/5 text-amber-300"}`}>
+                {domainSearch.error ? (
+                  <><AlertTriangle className="inline h-4 w-4 mr-1" /> {domainSearch.error}</>
+                ) : domainSearch.available ? (
+                  <><CheckCircle2 className="inline h-4 w-4 mr-1" /> Available{domainSearch.price ? ` — $${domainSearch.price}/yr` : ""}{domainSearch.source ? ` via ${domainSearch.source}` : ""}</>
+                ) : (
+                  <><AlertTriangle className="inline h-4 w-4 mr-1" /> Not available{domainSearch.alternatives?.length ? ` — try: ${domainSearch.alternatives.join(", ")}` : ""}</>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

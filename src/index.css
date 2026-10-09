@@ -130,6 +130,10 @@
   .dd-input:focus {
     border-color: rgba(0, 242, 255, 0.5);
   }
+  select option {
+    background: #0d0d12;
+    color: #e2e2e2;
+  }
   .dd-kenburns {
     animation: dd-kenburns 30s ease-in-out infinite alternate;
     will-change: transform;

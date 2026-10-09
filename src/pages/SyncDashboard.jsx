@@ -323,7 +323,7 @@ export default function SyncDashboard() {
         )}
 
         {previewPack && (
-          <div className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-6" onClick={() => setPreviewPack(null)}>
+          <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6" onClick={() => setPreviewPack(null)}>
             <div className="bg-background max-w-5xl w-full max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
               <div className="flex items-center justify-between p-4 border-b border-border">
                 <div>

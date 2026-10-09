@@ -154,7 +154,7 @@ function MissionForm({ onClose, onCreated }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-6" onClick={onClose}>
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6" onClick={onClose}>
       <div className="bg-background max-w-lg w-full border border-border" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h3 className="font-heading text-lg font-bold">New Mission</h3>
