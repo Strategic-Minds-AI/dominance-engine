@@ -7,6 +7,7 @@ import {
 
 const NAV = [
   { to: "/admin", end: true, icon: LayoutDashboard, label: "Command Center" },
+  { to: "/admin/timeline", icon: Sparkles, label: "Dominance Timeline" },
   { to: "/admin/create", icon: Compass, label: "Creation Hub" },
   { to: "/admin/universal-factory", icon: Factory, label: "Universal Factory" },
   { to: "/admin/visual-editor", icon: Palette, label: "Visual Editor" },

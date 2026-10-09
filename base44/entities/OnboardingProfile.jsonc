@@ -21,6 +21,9 @@
     "contact_phone": {
       "type": "string"
     },
+    "street_address": {
+      "type": "string"
+    },
     "location_city": {
       "type": "string"
     },
@@ -35,6 +38,18 @@
       "type": "string"
     },
     "sub_industry": {
+      "type": "string"
+    },
+    "business_stage": {
+      "type": "string",
+      "enum": [
+        "rebrand",
+        "build_new",
+        "enhance_existing"
+      ],
+      "default": "build_new"
+    },
+    "existing_business_name": {
       "type": "string"
     },
     "service_area": {

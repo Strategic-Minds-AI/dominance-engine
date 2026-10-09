@@ -36,6 +36,7 @@ import CreationHub from '@/pages/CreationHub';
 import UniversalFactory from '@/pages/admin/UniversalFactory';
 import IndustryLibrary from '@/pages/admin/IndustryLibrary';
 import SeoCommand from '@/pages/admin/SeoCommand';
+import DominanceTimeline from '@/pages/DominanceTimeline';
 import EdenAvatarStudio from '@/pages/EdenAvatarStudio';
 import SiteVersionView from '@/pages/SiteVersionView';
 import ClientPortal from '@/pages/ClientPortal';
@@ -100,6 +101,7 @@ const AuthenticatedApp = () => {
           <Route path="industry-library" element={<IndustryLibrary />} />
           <Route path="seo-command" element={<SeoCommand />} />
           <Route path="eden-avatar" element={<EdenAvatarStudio />} />
+          <Route path="timeline" element={<DominanceTimeline />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
