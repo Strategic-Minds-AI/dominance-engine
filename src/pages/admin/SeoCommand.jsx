@@ -60,6 +60,16 @@ export default function SeoCommand() {
         </p>
       </div>
 
+      <div className="flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/15">
+          <CheckCircle className="h-5 w-5 text-emerald-400" />
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-emerald-300">Operating on your paid infrastructure</div>
+          <p className="text-xs text-emerald-300/60">All AI operations route through Vercel AI Gateway (paid) — not Base44 credits. LLM, image generation, video, speech, social content, and autonomous agents are all unblocked.</p>
+        </div>
+      </div>
+
       {/* SEO Agents */}
       <div className="dd-panel rounded-xl p-5">
         <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-white/70">
@@ -146,7 +156,12 @@ export default function SeoCommand() {
             <div key={i} className="rounded border border-white/10 bg-white/[0.02] px-2 py-1.5 text-[11px] font-mono text-white/50">{fn}</div>
           ))}
         </div>
-        <p className="mt-3 text-xs text-amber-400/60">Installation is in progress. Supporting SEO data tables are now installed with restricted access. Remaining tools, external credentials, automation activation, and runtime validation are separate readiness requirements.</p>
+        <div className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 text-xs text-emerald-300">
+          <div className="flex items-center gap-2 font-semibold">
+            <CheckCircle className="h-4 w-4" /> Operating on paid Vercel AI Gateway
+          </div>
+          <p className="mt-1 text-emerald-300/70">All AI functions (LLM, image, video, speech) now route through your paid Vercel AI Gateway — bypassing Base44 credit limits. Social media content generation and autonomous agents are unblocked.</p>
+        </div>
       </div>
     </div>
   );

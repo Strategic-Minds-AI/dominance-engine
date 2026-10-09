@@ -11,6 +11,8 @@ const DIMENSIONS = [
   { key: 'autonomy', desc: 'Can the system run non-stop without human input? (workflows, auto-recovery, self-healing, gap detection)' },
 ];
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -112,7 +114,7 @@ Generate ONE specific, actionable enhancement. Return JSON:
   "binding_constraint": "what's blocking this dimension right now"
 }`;
 
-    const llm = await svc.integrations.Core.InvokeLLM({
+    const llm = await gatewayLLM({
       prompt: enhancementPrompt, model: 'gemini_3_flash', add_context_from_internet: true,
       response_json_schema: {
         type: 'object',

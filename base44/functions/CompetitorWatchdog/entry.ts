@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // CompetitorWatchdog — monitors competitor pages for changes and auto-responds.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -25,7 +27,7 @@ export default async function (req: Request): Promise<Response> {
         const res = await fetch(compUrl, { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(10000) });
         currentContent = await res.text();
       } catch (e) {
-        const llmRes = await base44.integrations.Core.InvokeLLM({
+        const llmRes = await gatewayLLM({
           prompt: `Fetch and summarize the content of this competitor page: ${compUrl}. What's the page title, meta description, H1, word count, and schema markup?`,
           add_context_from_internet: true, model: 'gemini_3_flash',
           response_json_schema: {
@@ -44,7 +46,7 @@ export default async function (req: Request): Promise<Response> {
 
       changesDetected++;
 
-      const analysis = await base44.integrations.Core.InvokeLLM({
+      const analysis = await gatewayLLM({
         prompt: `A competitor's page has changed. Analyze the new content and suggest counter-strategies.
 
 Competitor: ${comp.name || compUrl}

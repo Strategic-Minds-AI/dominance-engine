@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // BacklinkTracker — monitors link velocity for managed domains.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -17,7 +19,7 @@ export default async function (req: Request): Promise<Response> {
     let totalLinks = 0, newLinks = 0;
 
     for (const domain of domains) {
-      const res = await base44.integrations.Core.InvokeLLM({
+      const res = await gatewayLLM({
         prompt: `Search the web for backlinks pointing to ${domain}. Find pages on other websites that link to ${domain}. List the top 20 referring domains and the URLs of pages that link to ${domain}.
 
 For each backlink, note: source_url, source_domain, anchor_text, link_type (follow|nofollow).

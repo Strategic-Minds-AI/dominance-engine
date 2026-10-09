@@ -167,6 +167,8 @@ function scoreCompliance(site) {
   return { score, checks };
 }
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -219,7 +221,7 @@ export default async function (req) {
     if (enhance) {
       try {
         const svc = base44.asServiceRole;
-        const llm = await svc.integrations.Core.InvokeLLM({
+        const llm = await gatewayLLM({
           prompt: `Improve the intro paragraph of a ${service} service page for ${city}, ${state}. Current intro: "${pages[1]?.intro || ""}". Make it more specific, people-first, and unique. Return only the improved paragraph.`,
         });
         if (llm && typeof llm === "string" && llm.length > 40) {

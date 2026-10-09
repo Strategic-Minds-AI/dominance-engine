@@ -2,6 +2,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 import { analyzePage } from '../../shared/pageAnalysis.ts';
 
 // ComputeIndustryBenchmarks — computes SEO benchmarks for an industry by analyzing top performers.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -71,7 +73,7 @@ Create a playbook with: benchmark_summary, target_summary, competitor_strengths,
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema });
     const data = llmRes?.data ?? llmRes;
 
     await svc.entities.IndustryPlaybook.create({

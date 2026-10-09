@@ -2,6 +2,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 import { violatesSpamPolicy } from '../../shared/are.js';
 
 // Onboarding + strategy engine: reverse-engineer the top competitors for a vertical.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -35,7 +37,7 @@ export default async function (req) {
       'Return: benchmark_summary, target_summary, competitor_strengths, competitor_failure_points, content_gaps, authority_gaps, surface_wins, norms, top_competitors, partner_deliverables.',
     ].filter(Boolean).join('\n');
 
-    const res = await svc.integrations.Core.InvokeLLM({
+    const res = await gatewayLLM({
       prompt, add_context_from_internet: true, model: 'gemini_3_flash',
       response_json_schema: {
         type: 'object',

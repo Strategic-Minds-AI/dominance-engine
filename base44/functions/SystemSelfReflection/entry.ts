@@ -8,6 +8,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 // Invoke: base44.functions.invoke('SystemSelfReflection', { cycle_id?, vision? })
 // Returns: { ok, reflection, directives, system_assessment }
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -102,7 +104,7 @@ Generate a self-reflection that includes:
 
 Be specific and actionable. Every directive must be executable by invoking a backend function. No vague advice.`;
 
-    const llm = await svc.integrations.Core.InvokeLLM({
+    const llm = await gatewayLLM({
       prompt: reflectionPrompt,
       model: 'gemini_3_flash',
       add_context_from_internet: true,

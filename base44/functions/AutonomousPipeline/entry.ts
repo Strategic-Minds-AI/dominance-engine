@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 
 // Autonomous Pipeline — deterministic end-to-end: Research → Generate → Persist → Validate → Score.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function(req: Request): Promise<Response> {
   try {
     const body = await req.json().catch(() => ({}));
@@ -11,7 +13,7 @@ export default async function(req: Request): Promise<Response> {
     const steps = [];
     const startTime = Date.now();
 
-    const researchRes = await base44.integrations.Core.InvokeLLM({
+    const researchRes = await gatewayLLM({
       prompt: `Research the "${niche}" industry for SEO and lead-generation purposes. Return structured data only.
 Niche: ${niche}
 ${url ? `Target URL: ${url}` : ''}
@@ -35,7 +37,7 @@ Return: top_keywords (10), search_volume_estimate, avg_cpc, top_competitors (3),
     steps.push({ step: 'research', status: 'success', duration_ms: Date.now() - startTime, data: researchRes });
 
     const genStart = Date.now();
-    const genRes = await base44.integrations.Core.InvokeLLM({
+    const genRes = await gatewayLLM({
       prompt: `Generate SEO-optimized content for the "${niche}" niche following Google's helpful content guidelines.
 Return: page_title (under 60 chars), meta_description (under 160 chars), h1, intro_paragraph (2-3 sentences), faqs (5 Q&A pairs), local_business_schema (JSON-LD), target_keyword, word_count_estimate.
 Adhere to E-E-A-T: demonstrate experience, expertise, authoritativeness, trustworthiness.`,

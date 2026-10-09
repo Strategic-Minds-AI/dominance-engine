@@ -10,6 +10,8 @@ import { analyzePage } from '../../shared/pageAnalysis.ts';
 // Invoke: base44.functions.invoke('AnalyzeCompetitors', { urls, industry? })
 // Returns: { ok, analysis, counterStrategy }
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -63,7 +65,7 @@ Output strict JSON.`;
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema });
     const data = llmRes?.data ?? llmRes;
 
     await svc.entities.ResearchFinding.create({

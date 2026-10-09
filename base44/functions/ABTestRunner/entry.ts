@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // ABTestRunner — automatically A/B tests different treatments in the SERP Digital Twin.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -34,7 +36,7 @@ export default async function (req: Request): Promise<Response> {
       let bestPredictedRank = 999;
 
       for (const variant of variants) {
-        const simRes = await base44.integrations.Core.InvokeLLM({
+        const simRes = await gatewayLLM({
           prompt: `Simulate this SEO treatment variant in a SERP Digital Twin:
 
 URL: ${url}

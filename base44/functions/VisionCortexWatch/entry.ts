@@ -9,6 +9,8 @@ const CATEGORY_MAP = {
   speed: 'speed', infrastructure: 'infrastructure', connectors: 'connectors',
 };
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -69,7 +71,7 @@ ${JSON.stringify(snapshot, null, 2)}
 
 Return the top 5-8 enhancements, ranked by impact on the goal. Then give a one-paragraph system_assessment of overall state vs goal.`;
 
-    const llm = await svc.integrations.Core.InvokeLLM({
+    const llm = await gatewayLLM({
       prompt,
       model: 'gemini_3_flash',
       add_context_from_internet: true,

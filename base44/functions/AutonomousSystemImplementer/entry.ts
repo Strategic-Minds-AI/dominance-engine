@@ -22,6 +22,8 @@ const CAP_TO_FUNCTION_MAP: Record<string, string> = {
   'Algorithm Update Monitor': 'AlgorithmUpdateMonitor', 'ARE Audit': 'AreAudit',
 };
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -81,7 +83,7 @@ Return a JSON object with an "implementation_plans" array, one per capability, e
 - capability_id, capability_name, invoke_function, payload, needs_new_function,
   new_function_description, implementation_steps, validation_criteria, auto_heal_strategy`;
 
-    const llm = await svc.integrations.Core.InvokeLLM({
+    const llm = await gatewayLLM({
       prompt: planPrompt, model: 'gemini_3_flash', add_context_from_internet: true,
       response_json_schema: {
         type: 'object',

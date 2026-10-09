@@ -9,6 +9,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 // 6. PROMOTES — promotes high-scoring ideas to capabilities or methods
 // 7. EVOLVES — logs everything as EvolutionIdea records
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -44,7 +46,7 @@ export default async function (req: Request): Promise<Response> {
 
     // PHASE 2: REFLECT
     console.log('[EvolutionEngine] Phase 2: Reflecting on patterns...');
-    const reflectionRes = await base44.integrations.Core.InvokeLLM({
+    const reflectionRes = await gatewayLLM({
       prompt: `You are the self-reflection engine of the Search Dominance OS. Analyze the system state and identify patterns.
 
 SYSTEM STATE:
@@ -82,7 +84,7 @@ Return as JSON: { "patterns": ["..."], "working": ["..."], "failing": ["..."], "
 
     // PHASE 3: IDEATE
     console.log(`[EvolutionEngine] Phase 3: Generating ${ideaCount} novel ideas...`);
-    const ideationRes = await base44.integrations.Core.InvokeLLM({
+    const ideationRes = await gatewayLLM({
       prompt: `You are the ideation engine of the Search Dominance OS. Based on the system's self-reflection, generate ${ideaCount} NOVEL ideas to improve the system.
 
 SYSTEM REFLECTION:
@@ -129,7 +131,7 @@ Return as JSON: { "ideas": [{ "title": "...", "description": "...", "category": 
     const newIdeas = [];
 
     for (const idea of ideasData) {
-      const simRes = await base44.integrations.Core.InvokeLLM({
+      const simRes = await gatewayLLM({
         prompt: `You are the simulation engine of the Search Dominance OS. Simulate the impact of this improvement idea on a managed URL portfolio.
 
 IDEA: ${idea.title}

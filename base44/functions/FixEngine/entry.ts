@@ -2,6 +2,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 import { priorityScore, violatesSpamPolicy, isShippable, newCycleId } from '../../shared/are.js';
 
 // AI-assisted fix engine with retry-until-resolved.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -43,7 +45,7 @@ export default async function (req) {
       context,
     ].join('\n');
 
-    const res = await svc.integrations.Core.InvokeLLM({
+    const res = await gatewayLLM({
       prompt,
       add_context_from_internet: true,
       model: 'gemini_3_flash',

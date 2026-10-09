@@ -12,6 +12,8 @@ const SYSTEM_PROTOCOLS = [
   'Must respect tenant isolation and RLS boundaries',
 ];
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -45,7 +47,7 @@ Return JSON: { "verdict": "promote"|"uphold"|"trash", "filter_accuracy": "pass"|
 
       let auditResult: any = null;
       try {
-        auditResult = await svc.integrations.Core.InvokeLLM({
+        auditResult = await gatewayLLM({
           prompt: auditPrompt, model: 'gpt_5_6_luna',
           response_json_schema: {
             type: 'object',

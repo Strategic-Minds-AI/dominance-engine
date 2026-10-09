@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 
 // Uses web research to discover new AI/SEO/AEO capabilities and add them to the registry.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -28,7 +30,7 @@ export default async function (req) {
       'Focus on capabilities that deliver the FASTEST and GREATEST impact. Return at least 25 capabilities.',
     ].join('\n');
 
-    const res = await svc.integrations.Core.InvokeLLM({
+    const res = await gatewayLLM({
       prompt, add_context_from_internet: true, model: 'gemini_3_flash',
       response_json_schema: {
         type: 'object',

@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // AISearchVisibility — checks whether managed URLs appear in AI search engine answers.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -26,7 +28,7 @@ export default async function (req: Request): Promise<Response> {
       const domain = targetDomain || (() => { try { return new URL(row.url).hostname; } catch { return ''; } })();
 
       try {
-        const aiRes = await base44.integrations.Core.InvokeLLM({
+        const aiRes = await gatewayLLM({
           prompt: `Search the web for: "${row.query}"\n\nReturn the top sources and URLs cited in the answer. List every URL mentioned. If ${domain} or any page from ${domain} appears, highlight it.\n\nFormat as JSON: { "sources": [{"url": "...", "title": "...", "mentions_target_domain": true/false}], "answer_summary": "..." }`,
           add_context_from_internet: true, model: 'gemini_3_flash',
           response_json_schema: {

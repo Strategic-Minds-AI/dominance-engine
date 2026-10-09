@@ -11,6 +11,8 @@ const FRAMEWORKS = {
   edge_cases: { name: 'Edge Cases', directive: `Find an extreme, underserved user — the edge of the market. Build an idea that serves them obsessively.` },
 };
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function(req: Request): Promise<Response> {
   try {
     const body = await req.json().catch(() => ({}));
@@ -42,7 +44,7 @@ For each idea produce: title, framework, reasoning_chain, problem, solution, tar
 
 Rank ideas by viability_score descending.`;
 
-    const llmRes = await base44.integrations.Core.InvokeLLM({
+    const llmRes = await gatewayLLM({
       prompt: masterPrompt, model: research ? 'gemini_3_flash' : 'gpt_5_mini', add_context_from_internet: research,
       response_json_schema: {
         type: 'object',

@@ -9,6 +9,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 // Invoke: base44.functions.invoke('ContentGenerator', { url?, limit? })
 // Returns: { ok, generated, content: [{ url, meta_title, meta_description, h1, schema, copy }] }
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -47,7 +49,7 @@ export default async function (req: Request): Promise<Response> {
       const industry = target.industry || 'General';
 
       try {
-        const res = await base44.integrations.Core.InvokeLLM({
+        const res = await gatewayLLM({
           prompt: `You are an expert SEO content generator. Generate optimized on-page content for this URL:
 
 URL: ${url}

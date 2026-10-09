@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // GenerateRepairPlan — takes audit results and generates a prioritized repair plan.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -61,7 +63,7 @@ Output strict JSON: { repairPlan: [{ task_name, category, severity, effort_hours
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema });
     const data = llmRes?.data ?? llmRes;
     if (!data?.repairPlan) return Response.json({ error: 'AI did not return a repair plan' }, { status: 502 });
 

@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.48';
 
 // Generates a complete, self-contained HTML landing page for a niche.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -9,7 +11,7 @@ export default async function(req) {
 
     if (!niche) return Response.json({ error: 'niche is required' }, { status: 400 });
 
-    const result = await base44.integrations.Core.InvokeLLM({
+    const result = await gatewayLLM({
       model: 'gemini_3_1_pro', add_context_from_internet: true,
       prompt: `Generate a complete, production-ready HTML landing page for a ${niche} business.
 
@@ -42,14 +44,15 @@ Return ONLY the HTML. No markdown code fences. No commentary.`
     const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/i);
     const metaDescription = descMatch ? descMatch[1] : '';
 
-    const fileName = `${niche.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-landing.html`;
-    const file = new File([html], fileName, { type: 'text/html' });
-    const uploadResult = await base44.asServiceRole.integrations.Core.UploadPublicFile({ file });
-    const htmlUrl = uploadResult.file_url;
+    const slug = niche.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
 
     const page = await base44.asServiceRole.entities.GeneratedPage.create({
-      niche, url_pattern: url_pattern || niche, strategic_url_id: strategic_url_id || '',
-      page_title: pageTitle, page_type, html_url: htmlUrl, meta_description: metaDescription, status: 'generated'
+      slug,
+      title: pageTitle,
+      page_type: page_type === 'landing' ? 'home' : page_type,
+      content_markdown: html,
+      meta_description: metaDescription,
+      status: 'generated'
     });
 
     await base44.asServiceRole.entities.Receipt.create({
@@ -57,7 +60,7 @@ Return ONLY the HTML. No markdown code fences. No commentary.`
       source: 'GenerateLandingPage', occurred_at: new Date().toISOString(), proof_level: 1
     });
 
-    return Response.json({ status: 'success', page_id: page.id, page_title: pageTitle, html_url: htmlUrl, html_length: html.length });
+    return Response.json({ status: 'success', page_id: page.id, page_title: pageTitle, html_length: html.length });
   } catch (error) {
     console.error('GenerateLandingPage error:', error);
     return Response.json({ error: error.message }, { status: 500 });

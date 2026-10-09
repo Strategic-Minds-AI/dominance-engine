@@ -1,5 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -60,7 +62,7 @@ Prioritize: speed of impact, novelty (newly discovered in the last 90 days), and
       required: ['methods']
     };
 
-    const llmRes = await base44.asServiceRole.integrations.Core.InvokeLLM({
+    const llmRes = await gatewayLLM({
       prompt, add_context_from_internet: true, model: 'gemini_3_flash', response_json_schema: schema
     });
 

@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // DraftOutreach — drafts personalized outreach emails for backlink building.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -48,7 +50,7 @@ Output strict JSON: { emails: [{ subject, body, tone, approach, predicted_respon
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema });
     const data = llmRes?.data ?? llmRes;
     if (!data?.emails) return Response.json({ error: 'AI did not return emails' }, { status: 502 });
 

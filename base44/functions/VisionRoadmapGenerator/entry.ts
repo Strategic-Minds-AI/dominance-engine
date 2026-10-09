@@ -1,5 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -9,7 +11,7 @@ export default async function(req) {
     const body = await req.json();
     const { vision, strategyName, simulationResults, persona, timeHorizonYears, platform } = body || {};
 
-    const llmResponse = await base44.integrations.Core.InvokeLLM({
+    const llmResponse = await gatewayLLM({
       prompt: `You are an elite autonomous system architect. Create a comprehensive execution roadmap.
 
 USER'S VISION: ${vision || 'Build a dominant autonomous SEO and digital business platform'}

@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // AnomalyDetection — detects sudden traffic/ranking drops by comparing recent GSC metrics.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -40,7 +42,7 @@ export default async function (req: Request): Promise<Response> {
       const anomalyType = impressionDrop >= dropThreshold ? 'impression_drop' : clickDrop >= dropThreshold ? 'click_drop' : scoreDrop >= dropThreshold ? 'score_drop' : 'rank_drop';
       anomalies.push({ url, type: anomalyType, impression_drop_pct: Math.round(impressionDrop), click_drop_pct: Math.round(clickDrop), score_drop_pct: Math.round(scoreDrop), rank_change: Math.round(rankDrop * 10) / 10 });
 
-      const investigation = await base44.integrations.Core.InvokeLLM({
+      const investigation = await gatewayLLM({
         prompt: `A URL has experienced a sudden drop in search performance. Investigate possible causes.
 
 URL: ${url}

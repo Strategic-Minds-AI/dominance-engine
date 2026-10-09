@@ -1,3 +1,5 @@
+import { gatewayLLM, gatewayImage } from "./vercelGateway.ts";
+
 // Deep Architecture Pipeline — deterministic, autonomous, end-to-end orchestrator.
 // Combines brand intelligence, SEO/AEO content generation, image generation,
 // section assembly, QA gating, and self-healing into a single deterministic pipeline.
@@ -140,7 +142,7 @@ export async function executeDeepArchitecturePipeline(base44: any, input: Pipeli
   stages.push(stage2);
   let copy: any = null;
   try {
-    const llmRes = await base44.asServiceRole.integrations.Core.InvokeLLM({
+    const llmRes = await gatewayLLM({
       prompt: buildCopyPrompt(template, ctx),
       response_json_schema: CONTENT_SCHEMA,
     });
@@ -163,8 +165,8 @@ export async function executeDeepArchitecturePipeline(base44: any, input: Pipeli
   try {
     const imgConfig = template.images(ctx);
     const imageCalls = [
-      base44.asServiceRole.integrations.Core.GenerateImage({ prompt: imgConfig.hero }),
-      ...imgConfig.gallery.map((p: string) => base44.asServiceRole.integrations.Core.GenerateImage({ prompt: p })),
+      gatewayImage({ prompt: imgConfig.hero }),
+      ...imgConfig.gallery.map((p: string) => gatewayImage({ prompt: p })),
     ];
     const imageResults = await Promise.allSettled(imageCalls);
     images.hero = imageResults[0].status === "fulfilled" ? imageResults[0].value?.url : undefined;
@@ -223,7 +225,7 @@ export async function executeDeepArchitecturePipeline(base44: any, input: Pipeli
   if (qaScore < 80 && qaScore > 0) {
     stage6.status = "running";
     try {
-      const retryRes = await base44.asServiceRole.integrations.Core.InvokeLLM({
+      const retryRes = await gatewayLLM({
         prompt: buildCopyPrompt(template, ctx) + "\n\nIMPORTANT: Your previous response was missing required fields. Ensure ALL fields are present: hero, trust_badges (4), services (3-4), process (3-4), gallery_captions (3), testimonial, faq (3) or funnel_steps (3), and seo with meta_title (under 60 chars), meta_description (under 155 chars), and focus_keywords (5).",
         response_json_schema: CONTENT_SCHEMA,
       });

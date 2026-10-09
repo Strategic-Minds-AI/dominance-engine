@@ -7,6 +7,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 // Invoke: base44.functions.invoke('KeywordCluster', { keywords, business_name? })
 // Returns: { ok, clusters, inputCount }
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -42,7 +44,7 @@ Group into 5-8 clusters. Each cluster: cluster_name, intent (informational/comme
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema });
     const data = llmRes?.data ?? llmRes;
     if (!data?.clusters) return Response.json({ error: 'AI did not return clusters' }, { status: 502 });
 

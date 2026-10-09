@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // AutoHealingEscalation — escalates failed fixes through increasingly aggressive approaches.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -23,7 +25,7 @@ export default async function (req: Request): Promise<Response> {
         approach = `Retry: ${fix.approach || 'original approach'}`;
         treatment = fix.treatment || fix.diagnosis || 'Retry the original fix';
       } else if (attemptNum === 2) {
-        const altRes = await base44.integrations.Core.InvokeLLM({
+        const altRes = await gatewayLLM({
           prompt: `A fix attempt failed. Generate an ALTERNATIVE approach.
 
 URL: ${fix.url}

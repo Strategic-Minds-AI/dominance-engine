@@ -24,6 +24,8 @@ const PATTERNS = [
 
 function slugify(s) { return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, ''); }
 
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function(req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -40,7 +42,7 @@ export default async function(req: Request): Promise<Response> {
 
     const expanded = [];
     for (const sector of sectors) {
-      const llmRes = await svc.integrations.Core.InvokeLLM({
+      const llmRes = await gatewayLLM({
         model: 'gemini_3_1_pro', add_context_from_internet: true,
         prompt: `You are a domain investment analyst. For the NAICS sector "${sector.sector}" (${sector.code}), expand these seed subindustries into EVERY possible specific service that consumers search for with "near me" intent:
 

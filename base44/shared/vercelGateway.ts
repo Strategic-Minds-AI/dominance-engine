@@ -107,3 +107,67 @@ export async function searchGatewayWeb(query) {
 export function createGatewayModels() {
   return { baseURL: GATEWAY_BASE, headers: gatewayConfig().headers };
 }
+
+// ── Drop-in replacement for base44 Core InvokeLLM ──
+// Bills to VERCEL_AI_GATEWAY (Vercel account), NOT Base44 credits.
+// Returns content directly (parsed JSON if response_json_schema, string otherwise).
+export async function gatewayLLM(opts: {
+  prompt?: string;
+  system?: string;
+  model?: string;
+  temperature?: number;
+  max_tokens?: number;
+  response_json_schema?: any;
+  messages?: any[];
+  add_context_from_internet?: boolean;
+  file_urls?: string[];
+}): Promise<any> {
+  const useWeb = opts.add_context_from_internet;
+  const model = opts.model
+    ? (opts.model === "gemini_3_1_pro" || opts.model === "gemini_3_flash" ? "perplexity/sonar" : opts.model)
+    : (useWeb ? "perplexity/sonar" : "openai/gpt-4o-mini");
+
+  const msgs = opts.messages || [
+    ...(opts.system ? [{ role: "system", content: opts.system }] : []),
+    { role: "user", content: opts.prompt || "" },
+  ];
+
+  const body: any = {
+    model,
+    messages: msgs,
+    ...(opts.temperature != null ? { temperature: opts.temperature } : {}),
+    ...(opts.max_tokens != null ? { max_tokens: opts.max_tokens } : {}),
+    ...(opts.response_json_schema
+      ? { response_format: { type: "json_schema", json_schema: { name: "result", schema: opts.response_json_schema } } }
+      : {}),
+  };
+
+  const data = await gatewayPost("/chat/completions", body, 180000);
+  const content = data?.choices?.[0]?.message?.content;
+
+  if (opts.response_json_schema && typeof content === "string") {
+    try { return JSON.parse(content); } catch { return content; }
+  }
+  return content;
+}
+
+// ── Drop-in replacement for base44 Core GenerateImage ──
+// Bills to VERCEL_AI_GATEWAY. Returns { url } matching GenerateImage's shape.
+export async function gatewayImage(opts: {
+  prompt: string;
+  model?: string;
+  n?: number;
+  size?: string;
+  response_format?: string;
+}): Promise<{ url: string; b64_json?: string }> {
+  const body = {
+    model: opts.model || "bfl/flux-3-image",
+    prompt: opts.prompt,
+    n: opts.n || 1,
+    response_format: opts.response_format || "url",
+    ...(opts.size ? { size: opts.size } : {}),
+  };
+  const data = await gatewayPost("/images/generations", body, 180000);
+  const img = data?.data?.[0];
+  return { url: img?.url || "", b64_json: img?.b64_json };
+}

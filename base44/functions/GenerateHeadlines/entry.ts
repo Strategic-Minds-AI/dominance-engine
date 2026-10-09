@@ -1,6 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // GenerateHeadlines — generates A/B headline variants for a page section.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -39,7 +41,7 @@ Output strict JSON: { headlines: [{ text, angle, char_count, predicted_ctr_score
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema });
     const data = llmRes?.data ?? llmRes;
     if (!data?.headlines) return Response.json({ error: 'AI did not return headlines' }, { status: 502 });
 

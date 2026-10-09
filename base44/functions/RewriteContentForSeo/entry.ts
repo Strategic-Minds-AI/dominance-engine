@@ -2,6 +2,8 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.46';
 
 // RewriteContentForSeo — takes existing page content and rewrites it for maximum
 // SEO + AEO performance.
+import { gatewayLLM } from "../../shared/vercelGateway.ts";
+
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
@@ -70,7 +72,7 @@ Output strict JSON with: new_title, new_meta_description, new_h1, new_h2s (array
       },
     };
 
-    const llmRes = await svc.integrations.Core.InvokeLLM({ prompt, response_json_schema: schema, model: 'claude_sonnet_4_6' });
+    const llmRes = await gatewayLLM({ prompt, response_json_schema: schema, model: 'claude_sonnet_4_6' });
     const data = llmRes?.data ?? llmRes;
     if (!data?.new_title) return Response.json({ error: 'AI did not return rewritten content' }, { status: 502 });
 
