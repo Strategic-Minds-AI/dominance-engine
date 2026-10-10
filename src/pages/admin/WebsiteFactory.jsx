@@ -49,7 +49,7 @@ export default function WebsiteFactory() {
     if (!domain) return;
     setDomainSearching(true); setDomainSearch(null);
     try {
-      const res = await base44.functions.invoke("CheckDomainAvailability", { domain });
+      const res = await base44.functions.invoke("DomainLookup", { domain });
       setDomainSearch(res.data || res);
     } catch (e) {
       setDomainSearch({ error: e.message });

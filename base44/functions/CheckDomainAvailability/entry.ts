@@ -1,25 +1,13 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.48';
 import { secrets } from 'base44:runtime';
+import { checkSingleDomain } from '../../shared/domainCheck.ts';
 
-// CheckDomainAvailability — batch checks domain availability via Vercel and GoDaddy APIs.
-async function checkVercel(domain, token, teamId) {
-  const qs = teamId ? `?teamId=${teamId}` : '';
-  const r = await fetch(`https://api.vercel.com/v1/registrar/domains/${domain}/availability${qs}`, { headers: { 'Authorization': `Bearer ${token}` } });
-  if (!r.ok) return { available: null, error: r.status };
-  const data = await r.json();
-  return { available: !!data.available, price: data.price || 0 };
-}
+// CheckDomainAvailability — batch checks NearMeCandidate records for availability.
+// Uses free Google DNS-over-HTTPS (no API key needed), with optional
+// Vercel/GoDaddy price enrichment when tokens are configured.
 
-async function checkGoDaddy(domain, key, secret) {
-  const r = await fetch(`https://api.godaddy.com/v1/domains/available?domain=${domain}`, { headers: { 'Authorization': `sso-key ${key}:${secret}` } });
-  if (!r.ok) return { available: null, error: r.status };
-  const data = await r.json();
-  const price = data.price ? data.price / 1000000 : 0;
-  return { available: !!data.available, price };
-}
-
-async function batchProcess(items, fn, concurrency = 10) {
-  const results = [];
+async function batchProcess(items: any[], fn: any, concurrency = 10) {
+  const results: any[] = [];
   for (let i = 0; i < items.length; i += concurrency) {
     const batch = items.slice(i, i + concurrency);
     const batchResults = await Promise.all(batch.map(fn));
@@ -40,51 +28,69 @@ export default async function(req: Request): Promise<Response> {
     const teamId = secrets.get('VERCEL_TEAM_ID');
     const godaddyKey = secrets.get('GODADDY_API_KEY');
     const godaddySecret = secrets.get('GODADDY_SECRET_KEY');
-    if (!vercelToken) return Response.json({ error: 'VERCEL_API_TOKEN not set' }, { status: 500 });
 
     const body = await req.json().catch(() => ({}));
     const limit = body.limit || 100;
     const singleDomain = body.domain;
 
-    let candidates;
+    // Single-domain mode: direct lookup
     if (singleDomain) {
-      candidates = await svc.entities.NearMeCandidate.filter({ domain: singleDomain }, '-created_date', 1);
-    } else {
-      candidates = await svc.entities.NearMeCandidate.filter({ availability_status: 'unchecked' }, '-created_date', limit);
+      const result = await checkSingleDomain(singleDomain, vercelToken, teamId, godaddyKey, godaddySecret);
+      const response: any = {
+        domain: singleDomain,
+        available: result.available,
+        price: result.price,
+        source: result.source,
+      };
+      return Response.json(response);
     }
+
+    // Batch mode: process NearMeCandidate records
+    const candidates = await svc.entities.NearMeCandidate.filter({ availability_status: 'unchecked' }, '-created_date', limit);
     if (!candidates.length) return Response.json({ message: 'No unchecked candidates found', checked: 0 });
 
-    const checkOne = async (c) => {
+    const checkOne = async (c: any) => {
       try {
-        const v = await checkVercel(c.domain, vercelToken, teamId);
-        if (v.available === true) return { id: c.id, domain: c.domain, status: 'available', source: 'vercel', price: v.price || 0 };
-        if (godaddyKey && godaddySecret) {
-          const g = await checkGoDaddy(c.domain, godaddyKey, godaddySecret);
-          if (g.available === true) return { id: c.id, domain: c.domain, status: g.price > 500 ? 'premium' : 'available', source: 'godaddy', price: g.price };
-          if (g.available === false) return { id: c.id, domain: c.domain, status: 'unavailable', source: 'both', price: 0 };
-        }
-        if (v.available === false) return { id: c.id, domain: c.domain, status: 'unavailable', source: 'vercel', price: 0 };
-        return { id: c.id, domain: c.domain, status: 'error', source: 'none', price: 0 };
-      } catch (e) {
+        const result = await checkSingleDomain(c.domain, vercelToken, teamId, godaddyKey, godaddySecret);
+        const status = !result.available ? 'unavailable' : result.price > 500 ? 'premium' : 'available';
+        return { id: c.id, domain: c.domain, status, source: result.source, price: result.price };
+      } catch (e: any) {
         return { id: c.id, domain: c.domain, status: 'error', source: 'none', price: 0, error: e.message };
       }
     };
 
     const results = await batchProcess(candidates, checkOne, 10);
-    const updates = results.map(r => ({ id: r.id, availability_status: r.status, availability_source: r.source, registration_price: r.price, checked_at: new Date().toISOString() }));
+    const updates = results.map((r) => ({
+      id: r.id,
+      availability_status: r.status,
+      availability_source: r.source,
+      registration_price: r.price,
+      checked_at: new Date().toISOString(),
+    }));
     if (updates.length) await svc.entities.NearMeCandidate.bulkUpdate(updates);
 
-    const available = results.filter(r => r.status === 'available').length;
-    const unavailable = results.filter(r => r.status === 'unavailable').length;
-    const premium = results.filter(r => r.status === 'premium').length;
+    const available = results.filter((r) => r.status === 'available').length;
+    const unavailable = results.filter((r) => r.status === 'unavailable').length;
+    const premium = results.filter((r) => r.status === 'premium').length;
 
-    await svc.entities.Receipt.create({
-      summary: `Domain availability check: ${results.length} checked, ${available} available, ${premium} premium, ${unavailable} unavailable`,
-      source: 'CheckDomainAvailability', occurred_at: new Date().toISOString(), proof_level: 1
+    try {
+      await svc.entities.Receipt.create({
+        summary: `Domain availability check: ${results.length} checked, ${available} available, ${premium} premium, ${unavailable} unavailable`,
+        source: 'CheckDomainAvailability',
+        occurred_at: new Date().toISOString(),
+        proof_level: 1,
+      });
+    } catch {}
+
+    return Response.json({
+      checked: results.length,
+      available,
+      unavailable,
+      premium,
+      errors: results.filter((r) => r.status === 'error').length,
+      results: results.map((r) => ({ domain: r.domain, status: r.status, price: r.price, source: r.source })),
     });
-
-    return Response.json({ checked: results.length, available, unavailable, premium, errors: results.filter(r => r.status === 'error').length, results: results.map(r => ({ domain: r.domain, status: r.status, price: r.price, source: r.source })) });
-  } catch (error) {
+  } catch (error: any) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
