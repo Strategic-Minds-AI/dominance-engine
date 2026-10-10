@@ -13,7 +13,11 @@ import {
   Layout,
   Monitor,
   Loader2,
+  TrendingUp,
+  DollarSign,
+  Zap,
 } from "lucide-react";
+import { CORE_SERVICES } from "@/data/dominanceRegistry";
 
 const KINDS = [
   { key: "all", label: "All", icon: Layout },
@@ -149,6 +153,63 @@ export default function TemplateLibrary() {
           </div>
         )}
       </main>
+
+      {/* Top 20 Industries */}
+      <section className="relative z-10 px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-6 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#00D4FF]/30 bg-[#00D4FF]/5">
+              <TrendingUp className="h-5 w-5 text-[#00D4FF]" />
+            </div>
+            <div>
+              <h2 className="font-heading text-2xl font-bold sm:text-3xl">
+                Top 20 <span className="text-[#00D4FF]">Industries</span>
+              </h2>
+              <p className="text-xs text-white/40">
+                Highest-intent verticals by search volume and lead value
+              </p>
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {CORE_SERVICES.map((s, i) => (
+              <motion.div
+                key={s.slug}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(i * 0.04, 0.4) }}
+              >
+                <Link
+                  to={`/admin/website-factory?service=${encodeURIComponent(s.name)}`}
+                  className="group flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.02] p-4 transition hover:border-[#00D4FF]/40 hover:bg-[#00D4FF]/[0.04]"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#00D4FF]/10 text-xs font-bold text-[#00D4FF]">
+                      {s.rank}
+                    </span>
+                    {s.emergency && (
+                      <Zap className="h-3.5 w-3.5 text-amber-400" />
+                    )}
+                  </div>
+                  <h3 className="mt-2 font-heading text-sm font-bold leading-tight">
+                    {s.name}
+                  </h3>
+                  <div className="mt-auto pt-3 flex items-center justify-between text-[10px] text-white/40">
+                    <span className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3" />
+                      {(s.est_volume / 1000).toFixed(0)}K/mo
+                    </span>
+                    <span className="flex items-center gap-1 text-[#00D4FF]">
+                      <DollarSign className="h-3 w-3" />
+                      {s.lead_value}
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Bottom CTA */}
       <div className="relative z-10 flex justify-center px-4 pb-16">
