@@ -189,7 +189,7 @@ function TemplateCard({ pack, index, onPreview }) {
           <iframe
             srcDoc={pack.preview_html}
             title={pack.name}
-            className="pointer-events-none h-[600px] w-[400px] origin-top-left scale-[0.5] sm:scale-[0.52]"
+            className="pointer-events-none absolute top-0 left-0 h-[300%] w-[300%] origin-top-left scale-[0.3333]"
             sandbox="allow-same-origin"
             loading="lazy"
           />
