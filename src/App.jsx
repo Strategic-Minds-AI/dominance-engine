@@ -41,6 +41,7 @@ import EdenAvatarStudio from '@/pages/EdenAvatarStudio';
 import SiteVersionView from '@/pages/SiteVersionView';
 import ClientPortal from '@/pages/ClientPortal';
 import LegalPageView from '@/pages/LegalPageView';
+import TemplateLibrary from '@/pages/TemplateLibrary';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -76,6 +77,7 @@ const AuthenticatedApp = () => {
       <Route path="/v/:slug" element={<SiteVersionView />} />
       <Route path="/portal/:slug" element={<ClientPortal />} />
       <Route path="/legal/:slug" element={<LegalPageView />} />
+      <Route path="/templates" element={<TemplateLibrary />} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />

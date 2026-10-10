@@ -50,6 +50,14 @@ export default function Home() {
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,170,255,0.10),_transparent_60%)]" />
 
+      {/* Templates — top left */}
+      <Link
+        to="/templates"
+        className="absolute left-4 top-[calc(1rem+env(safe-area-inset-top))] z-30 inline-flex items-center gap-2 rounded-full border-2 border-[#00D4FF]/40 bg-[#00D4FF]/5 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white/70 backdrop-blur-sm transition hover:border-[#00D4FF] hover:text-white sm:px-5 sm:py-2.5"
+      >
+        Templates
+      </Link>
+
       {/* Call Now — top right */}
       <a
         href="tel:+15555550100"
