@@ -69,8 +69,8 @@ function Navigation({variant}) {
 }
 function Brand({small=false}) {
  return <div className={'v2-brand'+(small?' v2-brand-small':'')}>
-  <img src={ASSETS+'silver-emblem.jpg'} alt="Metallic Strategic Minds AI S emblem" width="370" height="360" className="v2-emblem"/>
-  <img src={ASSETS+'chrome-wordmark.jpg'} alt="Strategic Minds AI. Intelligence in Motion." width="1065" height="135" className="v2-wordmark"/>
+  <img src={ASSETS+'silver-emblem.png'} alt="Metallic Strategic Minds AI S emblem" width="370" height="360" className="v2-emblem"/>
+  <img src={ASSETS+'chrome-wordmark.png'} alt="Strategic Minds AI. Intelligence in Motion." width="1065" height="135" className="v2-wordmark"/>
  </div>;
 }
 function Earth() {return <div className="v2-earth" aria-hidden="true"><img src={ASSETS+'connected-earth.jpg'} alt="" width="1254" height="306"/></div>;}
