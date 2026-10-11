@@ -205,3 +205,31 @@
 @media(prefers-reduced-motion:reduce){
  .v2-page *, .v2-page *::before, .v2-page *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* VISUAL QA ITERATION 02: correct live tagline, seamless hero, and balanced globe. */
+.v2-tagline{width:100%;display:flex;align-items:center;justify-content:center;gap:20px;color:#e5f3ff;font-weight:450;letter-spacing:clamp(.13em,.7vw,.48em);font-size:clamp(11px,1.55vw,21px);line-height:1.5;text-shadow:0 0 12px rgba(0,172,255,.3);white-space:nowrap;margin-top:1px}
+.v2-tagline i{display:block;flex:1;max-width:90px;height:1px;background:linear-gradient(90deg,transparent,#55d5ff);box-shadow:0 0 8px #19aef6}
+.v2-tagline i:last-child{background:linear-gradient(90deg,#55d5ff,transparent)}
+.v2-brand{gap:2px}
+.v2-brand .v2-wordmark{margin-top:-3px}
+.v2-variant-a .v2-earth{bottom:-112px}
+.v2-variant-b .v2-earth{bottom:-78px}
+.v2-brand-small .v2-tagline{font-size:clamp(8px,.84vw,12px);letter-spacing:.25em;gap:9px}
+.v2-brand-small .v2-tagline i{max-width:35px}
+@media(max-width:820px){
+ .v2-header-grid{grid-template-columns:minmax(90px,121px) minmax(65px,1fr) minmax(90px,119px)}
+ .v2-nav-shell{min-width:0}
+ .v2-call{min-width:0}
+ .v2-tagline{font-size:clamp(8px,1.9vw,14px);letter-spacing:.15em;gap:6px}
+ .v2-tagline i{max-width:22px}
+ .v2-variant-a .v2-earth{bottom:-45px}
+ .v2-variant-b .v2-earth{bottom:-35px}
+}
+@media(max-width:520px){
+ .v2-header-grid{grid-template-columns:minmax(90px,108px) minmax(68px,1fr) minmax(90px,104px)}
+ .v2-tagline{font-size:clamp(7px,2.3vw,11px);letter-spacing:.07em;gap:4px}
+ .v2-tagline i{max-width:10px}
+ .v2-brand-small .v2-tagline{font-size:8px;letter-spacing:.05em;gap:3px}
+ .v2-variant-a .v2-earth{bottom:-10px}
+ .v2-variant-b .v2-earth{bottom:-5px}
+}
