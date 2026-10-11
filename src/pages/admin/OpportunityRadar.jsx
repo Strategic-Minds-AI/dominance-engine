@@ -45,7 +45,7 @@ export default function OpportunityRadar() {
         buyer_density: 8,
         est_monthly_search: svc.est_volume,
         opportunity_score: score,
-        monetization_hypothesis: `${svc.name} in ${mt?.city || metro}; lead value $${svc.lead_value}`,
+        monetization_hypothesis: `${svc.name} in ${mt?.city || metro}; INTERNAL estimated lead value ${svc.lead_value}; needs verification`,
         buyer_archetype: svc.emergency ? "Emergency need-based" : "Comparison shopper",
         recommended_url: domain ? `https://${domain}` : `/${slugify(svc.slug)}/${slugify(mt?.state || "")}/${slugify(mt?.city || "")}`,
         domain_candidate: domain,
@@ -63,7 +63,7 @@ export default function OpportunityRadar() {
         <h1 className="flex items-center gap-2 font-heading text-2xl font-bold tracking-tight">
           <Radar className="h-6 w-6 text-[#00f2ff]" /> Opportunity <span className="text-[#00d4ff]">Radar</span>
         </h1>
-        <p className="mt-1 text-sm text-white/50">Score service × metro × intent combinations. Never launch solely from keyword volume — require a monetization hypothesis.</p>
+        <p className="mt-1 text-sm text-white/50">Create research candidates from internal planning assumptions. Validate real Google demand, buyers and fulfillment before approving a launch.</p>
       </div>
 
       {/* Builder */}
@@ -93,11 +93,11 @@ export default function OpportunityRadar() {
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
-            <div className="text-xs text-white/40">Opportunity score</div>
+            <div className="text-xs text-white/40">Modeled planning score</div>
             <div className="text-2xl font-bold text-[#00d4ff]">{score}</div>
           </div>
           <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
-            <div className="text-xs text-white/40">Est. monthly search</div>
+            <div className="text-xs text-white/40">Internal volume estimate*</div>
             <div className="text-2xl font-bold">{(svc?.est_volume || 0).toLocaleString()}</div>
           </div>
           <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
@@ -113,6 +113,8 @@ export default function OpportunityRadar() {
           {msg && <span className="text-xs text-emerald-400">{msg}</span>}
         </div>
       </div>
+
+      <p className="text-xs text-amber-200/70">* Internal model only, not a provider-refreshed Google search volume. Scores are research prioritization, not index or launch approval.</p>
 
       {/* Queue */}
       <div className="dd-panel rounded-xl p-5">
