@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from '@/components/ProtectedRoute';
 // Add page imports here
 import Home from '@/pages/Home';
+import V2Experience from '@/pages/V2Experience';
 import StrategicMarketing, { StrategicCategory } from '@/pages/StrategicMarketing';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -73,6 +74,8 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/v2" element={<Navigate to="/v2/a" replace />} />
+      <Route path="/v2/:variant" element={<V2Experience />} />
       <Route path="/strategic-minds" element={<StrategicMarketing />} />
       <Route path="/strategic-minds/solutions/:slug" element={<StrategicCategory />} />
       <Route path="/login" element={<Login />} />
@@ -122,7 +125,7 @@ const AuthenticatedApp = () => {
 function App() {
   // Public marketing must not wait on the legacy Base44 auth bootstrap.
   // This preserves the authenticated Dominance Engine without exposing its controls.
-  const isMarketing = typeof window !== 'undefined' && /^\/strategic-minds(?:\/|$)/.test(window.location.pathname);
+  const isMarketing = typeof window !== 'undefined' && (/^\/strategic-minds(?:\/|$)/.test(window.location.pathname) || /^\/v2(?:\/|$)/.test(window.location.pathname));
   if (isMarketing) {
     return (
       <Router>
@@ -130,6 +133,8 @@ function App() {
         <Routes>
           <Route path="/strategic-minds" element={<StrategicMarketing />} />
           <Route path="/strategic-minds/solutions/:slug" element={<StrategicCategory />} />
+          <Route path="/v2" element={<Navigate to="/v2/a" replace />} />
+          <Route path="/v2/:variant" element={<V2Experience />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
