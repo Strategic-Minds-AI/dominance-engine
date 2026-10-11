@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Phone, Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+import { appParams } from "@/lib/app-params";
 
 const FALLBACK_URL =
   "https://media.base44.com/images/public/6ac7bc6cf0b681d8bc7f7aeb/cf93062aa_FACEBOOKIMAGE2.png";
@@ -19,6 +20,8 @@ export default function Home() {
 
   useEffect(() => {
     if (heroUrl) return;
+    // Avoid calling an invalid Base44 endpoint when Vercel has no verified donor binding.
+    if (!appParams.appId) { setFailed(true); return; }
     let cancelled = false;
     (async () => {
       try {
