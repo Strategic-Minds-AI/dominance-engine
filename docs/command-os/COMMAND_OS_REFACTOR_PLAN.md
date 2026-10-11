@@ -89,3 +89,15 @@ VERIFIED: user-selected frontend repository and SHA, Vercel deployed READY, 112 
 UNKNOWN: current admin auth functionality, live GPT bidirectional runtime, independent visual parity, actual online workers, Google Search performance for target sites, costs/margins, full Vite build and end-to-end pilot.
 BLOCKED: No deployment to production; no live migration; no stage queue binding; no destructive archive. Preserve rollback by reverting branch commits.
 NEXT: independently validate branch preview, authorize scoped Supabase staging adapter, build one real read-only mission round trip and a synthetic site pilot.
+
+
+## 09 LIVE PREVIEW BROWSER SMOKE / P0 FRONTEND AUTH BOOTSTRAP
+Observed in headless browser on 2026-10-10 ET:
+- Public https://dominance-engine.vercel.app/ returns document HTTP 200; the selected design renders.
+- Attempt to visit a deployed /admin/operator preview returns the login UI because the browser has no authenticated session. This is expected but does NOT prove authenticated operator behavior or admin permissions.
+- Network shows POST /api/apps/undefined/analytics/track/batch HTTP 405 repeatedly and POST /api/apps/undefined/functions/generateHeroImage HTTP 405 on the public site.
+- GET /api/apps/public/prod/public-settings/by-id/undefined returns 200, which is NOT valid proof of correct Base44 App ID configuration.
+- Source src/lib/app-params.js derives appId from import.meta.env.VITE_BASE44_APP_ID. On the inspected Vercel deployment outgoing requests contain undefined. Never paste secret values into a browser or pretend this proves provider independence.
+- Priority P0: verify build-time app identity binding and replace automatic Base44 image generation/analytics POST dependencies with server-owned provider-neutral adapters while preserving the approved visual hero.
+- A READY static build is not a successful API runtime test.
+- Do not bypass login. Authenticated visual/browser smoke must use approved account flow and prove tenant role/authorization.
