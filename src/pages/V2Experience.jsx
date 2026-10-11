@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Bot, BrainCircuit, ChartNoAxesCombined, CheckCircle2, DatabaseZap, Globe2, Headphones, Menu, Phone, Search, ShieldCheck, Sparkles, Workflow, X } from 'lucide-react';
 import './V2Experience.css';
+import './V2Motion.css';
 
 const ASSETS='/v2-assets/';
 const EDEN_PHONE='tel:+18665711174';
@@ -69,12 +70,28 @@ function Navigation({variant}) {
 }
 function Brand({small=false}) {
  return <div className={'v2-brand'+(small?' v2-brand-small':'')}>
-  <img src={ASSETS+'silver-emblem.png'} alt="Metallic Strategic Minds AI S emblem" width="370" height="360" className="v2-emblem"/>
+  <div className="v2-emblem-stage"><img src={ASSETS+'silver-emblem.png'} alt="Metallic Strategic Minds AI S emblem" width="370" height="360" className="v2-emblem"/><span className="v2-emblem-glint" aria-hidden="true"/></div>
   <img src={ASSETS+'chrome-wordmark.png'} alt="Strategic Minds AI" width="1065" height="78" className="v2-wordmark"/>
   <span className="v2-tagline"><i aria-hidden="true"/>INTELLIGENCE IN MOTION<i aria-hidden="true"/></span>
  </div>;
 }
-function Earth() {return <div className="v2-earth" aria-hidden="true"><img src={ASSETS+'connected-earth.jpg'} alt="" width="1254" height="306"/></div>;}
+function Earth() {return <div className="v2-earth" aria-hidden="true">
+  <img src={ASSETS+'connected-earth.jpg'} alt="" width="1254" height="306"/>
+  <svg className="v2-network" viewBox="0 0 1254 306" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path className="v2-network-track" d="M104 230 Q276 56 464 205"/>
+    <path className="v2-network-flow" d="M104 230 Q276 56 464 205"/>
+    <path className="v2-network-track" d="M464 205 Q670 25 860 181"/>
+    <path className="v2-network-flow" d="M464 205 Q670 25 860 181"/>
+    <path className="v2-network-track" d="M860 181 Q1011 35 1171 232"/>
+    <path className="v2-network-flow" d="M860 181 Q1011 35 1171 232"/>
+    <path className="v2-network-track" d="M261 253 Q599 81 1015 253"/>
+    <path className="v2-network-flow" d="M261 253 Q599 81 1015 253"/>
+    <circle className="v2-network-beacon" cx="104" cy="230" r="3.6"/>
+    <circle className="v2-network-beacon" cx="464" cy="205" r="4"/>
+    <circle className="v2-network-beacon" cx="860" cy="181" r="3.8"/>
+    <circle className="v2-network-beacon" cx="1171" cy="232" r="3"/>
+  </svg>
+</div>;}
 function Cta({variant,label='START YOUR AI TRANSFORMATION'}) {
  return <Link to="/v2/eden#onboarding" className="v2-main-cta"
   onClick={()=>eventV2('onboarding_cta',variant)}>
