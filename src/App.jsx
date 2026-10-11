@@ -15,6 +15,7 @@ import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import AdminLayout from '@/components/admin/AdminLayout';
 import Dashboard from '@/pages/admin/Dashboard';
+import OperatorCommand from '@/pages/admin/OperatorCommand';
 import OpportunityRadar from '@/pages/admin/OpportunityRadar';
 import WebsiteFactory from '@/pages/admin/WebsiteFactory';
 import Preview from '@/pages/admin/Preview';
@@ -81,6 +82,7 @@ const AuthenticatedApp = () => {
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="operator" element={<OperatorCommand />} />
           <Route path="opportunities" element={<OpportunityRadar />} />
           <Route path="website-factory" element={<WebsiteFactory />} />
           <Route path="preview" element={<Preview />} />
