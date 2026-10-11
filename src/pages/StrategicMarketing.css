@@ -257,3 +257,51 @@
 @media(prefers-reduced-motion:reduce){
 .sm-page *,.sm-page *::before,.sm-page *::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
+
+
+/* STRATEGIC MINDS AI / LEFT-RAIL EXPERIENCE v1.
+ * Marketing only. The existing Operator OS retains its current admin navigation.
+ * On desktop the entire menu is vertical to the left, not a conventional header.
+ */
+@media (min-width: 951px) {
+  .sm-page{padding-left:244px}
+  .sm-nav{position:fixed;top:0;bottom:0;left:0;width:244px;height:100dvh;z-index:60;background:linear-gradient(165deg,rgba(9,20,34,.99),rgba(2,8,15,.99));border-right:1px solid rgba(97,199,255,.25);border-bottom:0;box-shadow:16px 0 70px rgba(0,3,8,.32);backdrop-filter:blur(20px)}
+  .sm-nav::after{content:"";position:absolute;right:-1px;top:12%;height:40%;width:1px;background:linear-gradient(transparent,#06b5ff,transparent);pointer-events:none;opacity:.8}
+  .sm-nav-inner{width:100%;height:100%;padding:30px 20px 24px;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:0}
+  .sm-nav-inner>a:first-child{display:block;margin:4px auto 42px;width:100%}
+  .sm-nav .sm-brand{min-width:0;flex-direction:column;align-items:flex-start;gap:14px}
+  .sm-nav .sm-brand-mark{width:60px;height:60px;box-shadow:inset 0 0 0 3px rgba(5,9,15,.6),0 0 42px rgba(0,180,255,.2)}
+  .sm-nav .sm-brand-mark span{font-size:35px}
+  .sm-nav .sm-brand-text strong{font-size:11px}
+  .sm-nav .sm-brand-text small{font-size:7.5px;letter-spacing:.10em}
+  .sm-nav .sm-nav-links{width:100%;display:flex;flex-direction:column;align-items:stretch;gap:6px;flex:none}
+  .sm-nav .sm-nav-links::before{content:"NAVIGATE";display:block;padding:0 12px 10px;font-size:9px;color:#6d99b8;letter-spacing:.24em;font-weight:800}
+  .sm-nav .sm-nav-links>a{display:block;width:100%;padding:14px 13px;border-radius:6px;font-size:12px;letter-spacing:.035em;color:#b7ccdc;white-space:normal;border:1px solid transparent;line-height:1.4}
+  .sm-nav .sm-nav-links>a:hover,.sm-nav .sm-nav-links>a:focus-visible{background:rgba(11,125,194,.12);border-color:rgba(90,208,246,.23);color:#b8f3ff}
+  .sm-nav .sm-nav-links>a:first-of-type{color:#a9ecff;background:rgba(3,155,223,.105);border-left:2px solid #27ceff}
+  .sm-nav .sm-nav-actions{display:flex;flex-direction:column;align-items:stretch;gap:12px;width:100%;margin-top:auto;padding-top:23px;border-top:1px solid rgba(122,204,240,.13)}
+  .sm-nav .sm-operator-link{display:flex;order:2;justify-content:center;color:#87adc5!important;font-size:11px}
+  .sm-nav .sm-nav-actions .sm-button{display:flex;order:1;white-space:normal;text-align:center;font-size:11px!important;padding:13px 12px;min-height:49px}
+  .sm-nav .sm-menu{display:none}
+  .sm-container{width:min(100% - 64px,1200px)}
+  .sm-hero-grid{grid-template-columns:minmax(0,1fr) minmax(375px,.82fr);gap:12px}
+  .sm-hero h1{font-size:clamp(44px,4.4vw,77px)}
+  .sm-hero-visual{min-height:560px}
+}
+@media (min-width:951px) and (max-width:1199px){
+  .sm-page{padding-left:214px}
+  .sm-nav{width:214px}
+  .sm-nav-inner{padding:24px 16px}
+  .sm-container{width:calc(100% - 48px)}
+  .sm-hero-grid{grid-template-columns:1fr}
+  .sm-hero-visual{margin-top:-60px;min-height:480px;transform:scale(.82)}
+}
+@media(max-width:950px){
+  .sm-page{padding-left:0}
+  .sm-nav{position:sticky;top:0}
+  .sm-nav-links.sm-nav-open{position:fixed;top:74px;left:0;right:auto;width:min(310px,90vw);height:calc(100dvh - 74px);overflow-y:auto;padding:30px 22px;display:flex;align-items:stretch;flex-direction:column;background:linear-gradient(#0a192b,#030a12);border-right:1px solid rgba(76,200,255,.26);box-shadow:18px 0 40px rgba(0,0,0,.55)}
+  .sm-nav-links.sm-nav-open a{width:100%;padding:10px 12px}
+}
+@media(max-width:599px){
+  .sm-nav-links.sm-nav-open{top:70px;height:calc(100dvh - 70px)}
+}
