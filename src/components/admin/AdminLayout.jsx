@@ -7,6 +7,7 @@ import {
 
 const STEPS = [
   { n: 1, label: "Command Center", path: "/admin", end: true, icon: LayoutDashboard },
+  { n: "AI", label: "Operator OS", path: "/admin/operator", icon: Bot },
   { n: 2, label: "Timeline", path: "/admin/timeline", icon: Sparkles },
   { n: 3, label: "Website Factory", path: "/admin/website-factory", icon: Factory },
   { n: 4, label: "SEO Command", path: "/admin/seo-command", icon: Rocket },

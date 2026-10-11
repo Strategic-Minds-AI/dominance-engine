@@ -42,11 +42,11 @@ export default function GptSync() {
     setSaving(true); setMsg("");
     try {
       if (existing) {
-        await base44.entities.GptSyncConfig.update(existing.id, { ...form, sync_state: "synced", last_sync_at: new Date().toISOString() });
+        await base44.entities.GptSyncConfig.update(existing.id, { ...form, sync_state: "config_saved_unverified", last_sync_at: new Date().toISOString() });
       } else {
-        await base44.entities.GptSyncConfig.create({ ...form, sync_state: "synced", last_sync_at: new Date().toISOString() });
+        await base44.entities.GptSyncConfig.create({ ...form, sync_state: "config_saved_unverified", last_sync_at: new Date().toISOString() });
       }
-      setMsg("GPT project sync saved. Paste the system instructions into your ChatGPT Project instructions.");
+      setMsg("Configuration saved. Two-way GPT/runtime synchronization is not yet verified. Copy the instructions and complete connector validation.");
       qc.invalidateQueries({ queryKey: ["dd-gpt-config"] });
     } catch (e) { setMsg(e.message); }
     setSaving(false);
@@ -60,12 +60,12 @@ export default function GptSync() {
         <h1 className="flex items-center gap-2 font-heading text-2xl font-bold tracking-tight">
           <RefreshCw className="h-6 w-6 text-[#00f2ff]" /> GPT <span className="text-[#00d4ff]">Sync</span>
         </h1>
-        <p className="mt-1 text-sm text-white/50">Sync the Digital Dominance source truth into a ChatGPT Project so ChatGPT can create stunning, Google-compliant websites in lockstep with this system.</p>
+        <p className="mt-1 text-sm text-white/50">Prepare the Digital Dominance GPT configuration. A saved configuration is not proof of authenticated, bidirectional runtime synchronization.</p>
       </div>
 
       {existing?.sync_state === "synced" && (
         <div className="flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3 text-xs text-emerald-300">
-          <CheckCircle2 className="h-4 w-4" /> Last synced {existing.last_sync_at ? new Date(existing.last_sync_at).toLocaleString() : "—"}
+          <CheckCircle2 className="h-4 w-4" /> Previously marked synced (not independently verified) {existing.last_sync_at ? new Date(existing.last_sync_at).toLocaleString() : "—"}
         </div>
       )}
 
