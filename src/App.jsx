@@ -118,7 +118,21 @@ const AuthenticatedApp = () => {
 
 
 function App() {
-
+  // Public marketing must not wait on the legacy Base44 auth bootstrap.
+  // This preserves the authenticated Dominance Engine without exposing its controls.
+  const isMarketing = typeof window !== 'undefined' && /^\/strategic-minds(?:\/|$)/.test(window.location.pathname);
+  if (isMarketing) {
+    return (
+      <Router>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/strategic-minds" element={<StrategicMarketing />} />
+          <Route path="/strategic-minds/solutions/:slug" element={<StrategicCategory />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Router>
+    );
+  }
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
