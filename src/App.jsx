@@ -17,6 +17,7 @@ import ResetPassword from '@/pages/ResetPassword';
 import AdminLayout from '@/components/admin/AdminLayout';
 import Dashboard from '@/pages/admin/Dashboard';
 import OperatorCommand from '@/pages/admin/OperatorCommand';
+import NorthAmericaFleet from '@/pages/admin/NorthAmericaFleet';
 import OpportunityRadar from '@/pages/admin/OpportunityRadar';
 import WebsiteFactory from '@/pages/admin/WebsiteFactory';
 import Preview from '@/pages/admin/Preview';
@@ -86,6 +87,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="operator" element={<OperatorCommand />} />
+          <Route path="fleet-planner" element={<NorthAmericaFleet />} />
           <Route path="opportunities" element={<OpportunityRadar />} />
           <Route path="website-factory" element={<WebsiteFactory />} />
           <Route path="preview" element={<Preview />} />
