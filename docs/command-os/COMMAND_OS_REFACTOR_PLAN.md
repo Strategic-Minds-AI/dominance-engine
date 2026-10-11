@@ -101,3 +101,15 @@ Observed in headless browser on 2026-10-10 ET:
 - Priority P0: verify build-time app identity binding and replace automatic Base44 image generation/analytics POST dependencies with server-owned provider-neutral adapters while preserving the approved visual hero.
 - A READY static build is not a successful API runtime test.
 - Do not bypass login. Authenticated visual/browser smoke must use approved account flow and prove tenant role/authorization.
+
+
+## 10 PARTIAL PREVIEW REPAIR RECEIPT
+Exact branch preview SHA 2b920c4e813548543a6e0bd10af950e749433185 = Vercel READY.
+Public root browser observation on that preview:
+- GET / document 200 and CSS/JS assets 200, approved visual fallback image fetched 200.
+- POST /api/apps/undefined/functions/generateHeroImage no longer appears. Source guard in Home.jsx produces safe visible fallback when VITE_BASE44_APP_ID is absent. Limited smoke PASS.
+- POST /api/apps/undefined/analytics/track/batch still returned HTTP 405. Vite plugin conditional alone does not suppress all Base44 SDK tracking. This repair is INCOMPLETE. DO NOT claim analytics integrated.
+- GET public-settings/by-id/undefined still occurs; Base44 app ID is unresolved on this Vercel deployment.
+- Protected /admin/operator redirects to login without authentication; authenticated UI, agent tools and data remain UNKNOWN.
+- No spend, live provisioning or production merge was performed.
+Next P0: replace the donor SDK transport/analytics/auth bootstrap behind a server-owned adapter; create exact role/binding/smoke contract, staging bridge, then complete a first mission with independent QA.
