@@ -18,6 +18,7 @@ const STEPS = [
 
 const TOOLS = [
   { to: "/admin/create", label: "Creation Hub" },
+  { to: "/admin/fleet-planner", label: "North America Fleet Planner" },
   { to: "/admin/universal-factory", label: "Universal Factory" },
   { to: "/admin/visual-editor", label: "Visual Editor" },
   { to: "/admin/industry-library", label: "Industry Library" },
