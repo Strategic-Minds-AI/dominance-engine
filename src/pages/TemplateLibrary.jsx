@@ -166,7 +166,7 @@ export default function TemplateLibrary() {
                 Top 20 <span className="text-[#00D4FF]">Industries</span>
               </h2>
               <p className="text-xs text-white/40">
-                Highest-intent verticals by search volume and lead value
+                Priority categories from internal models. Verify current search demand and actual lead value before launch.
               </p>
             </div>
           </div>
@@ -197,11 +197,11 @@ export default function TemplateLibrary() {
                   <div className="mt-auto pt-3 flex items-center justify-between text-[10px] text-white/40">
                     <span className="flex items-center gap-1">
                       <TrendingUp className="h-3 w-3" />
-                      {(s.est_volume / 1000).toFixed(0)}K/mo
+                      ~{(s.est_volume / 1000).toFixed(0)}K/mo*
                     </span>
                     <span className="flex items-center gap-1 text-[#00D4FF]">
                       <DollarSign className="h-3 w-3" />
-                      {s.lead_value}
+                      {s.lead_value}*
                     </span>
                   </div>
                 </Link>
@@ -209,6 +209,7 @@ export default function TemplateLibrary() {
             ))}
           </div>
         </div>
+        <p className="mx-auto mt-3 max-w-7xl text-xs text-white/40">* Internal planning estimates, not verified Google search volumes, live prices, or guaranteed lead resale values.</p>
       </section>
 
       {/* Bottom CTA */}
