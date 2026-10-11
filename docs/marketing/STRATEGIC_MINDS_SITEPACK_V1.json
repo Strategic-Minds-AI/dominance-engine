@@ -1,0 +1,60 @@
+{
+  "pack_id": "smai-marketing-command-os-v1",
+  "version": "1.0.0-preview",
+  "source": {
+    "repository": "Strategic-Minds-AI/dominance-engine",
+    "commit_sha": "e6a56ce18854fb936c28c43417ba1cdaae0b24cb",
+    "template_id": "dominance-engine-cinematic-cyan-v1"
+  },
+  "brand": {
+    "name": "Strategic Minds AI",
+    "contact_phone": "+1-772-209-0266",
+    "legal_business_name": "Strategic Minds AI LLC"
+  },
+  "industry": {
+    "slug": "ai-business-services",
+    "services": [
+      "AI strategy and consulting",
+      "Custom software and AI agents",
+      "Websites and conversion systems",
+      "SEO AEO GEO advisory",
+      "CRM and revenue automation",
+      "Data and AI business operations"
+    ]
+  },
+  "design": {
+    "approved_reference": "https://dominance-engine.vercel.app/",
+    "design_token_version": "strategic-cyan-v1"
+  },
+  "locations": [
+    {
+      "city": "Fort Lauderdale",
+      "region": "Florida",
+      "country": "US",
+      "verified_service_area": false,
+      "unique_value": "This location is a research candidate only; serviceability, city-specific evidence, personnel and original buyer utility are not yet established."
+    }
+  ],
+  "provisioning": {
+    "mode": "preview",
+    "approval_required": true,
+    "noindex_until_validated": true
+  },
+  "extensions": {
+    "site_strategy": "Parent company authority site; service-domain variants require separate use cases",
+    "technical": "Static initial HTML for 21 marketing routes; local Mission and Fleet planners; authenticated source-bound persistent backend pending",
+    "google_index_status": "NOINDEX_DRAFT",
+    "content_registry": {
+      "categories": 20,
+      "offerings": 120
+    },
+    "release_blockers": [
+      "Production confirmation and selected domain",
+      "Credential-free preview UI smoke and mobile screenshot",
+      "Real CRM lead route and privacy review",
+      "X1 durable mission handoff validation",
+      "Verified market-specific business evidence",
+      "Independent technical SEO, a11y and security QA"
+    ]
+  }
+}
